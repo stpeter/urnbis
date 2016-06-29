@@ -28,7 +28,7 @@
 
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 ... this is 17d -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-18a"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-18b"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -76,7 +76,7 @@
   <middle>
 
     <section title='Introduction' anchor='intro'>
-      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) <xref target='RFC3986'/> that is assigned under the "urn" scheme and a particular namespace, with the intent that the URN will be either a persistent, location-independent resource identifier or in some cases an abstract designator that is persistent but that does not identify a resource.  A URN namespace is a collection of such identifiers, each of which is (1) unique, (2) assigned in a consistent and managed way, and (3) assigned according to a common definition.  (Some URN namespaces create names that exist only as URNs, whereas others create URNs out of names that already exist in other identifier systems, such as ISBNs <xref target='RFC3187'/> and ISSNs <xref target='RFC3044'/>.)</t>
+      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) <xref target='RFC3986'/> that is assigned under the "urn" scheme and a particular namespace, with the intent that the URN will be either a persistent, location-independent resource identifier or in some cases an abstract designator that is persistent but that does not identify a resource.  A URN namespace is a collection of such names, each of which is (1) unique, (2) assigned in a consistent and managed way, and (3) assigned according to a common definition.  (Some URN namespaces create names that exist only as URNs, whereas others create URNs out of identifiers that already exist in other identifier systems, such as ISBNs <xref target='RFC3187'/> and ISSNs <xref target='RFC3044'/>.)</t>
       <t>The assignment of URNs is done by an organization (or, in some cases, according to an algorithm or other automated process) that has been formally delegated a namespace within the "urn" scheme (e.g., a URN in the 'example' namespace <xref target='RFC6963'/> might be of the form "urn:example:foo").</t>
       <t>This document rests on two key assumptions:</t>
       <t>
@@ -175,12 +175,23 @@
 	</section>	  
 
     <section title="Terminology" anchor="terms">
+      <t>The following terms are distinguished from each other as described below:</t>
+      <t>
+        <list style='hanging'>
+          <t hangText='URN namespace'>A managed collection of names that is associated with a URN namespace identifier (NID)</t>
+          <t hangText='URN'>A name that is a member of a URN namespace</t>
+          <t hangText='NSS'>The URN-namespace-specific part of a URN</t>
+          <t hangText='Identifier system'>A managed collection of identifiers that exists outside of the URN system</t>
+          <t hangText='Identifier'>A name that is a member of a (non-URN) identifier system</t>
+          <t hangText='Name'>A member of a URN namespace or of a (non-URN) identifier system</t>
+        </list>
+      </t>
       <t>This document uses the terms "resolution" and "resolver" in
 		 roughly the sense in which they were used in the original
 		 discussion of architectural principles for
 		 URNs <xref target='RFC2276'/>, i.e., "resolution" is the act
 		 of supplying services related to the identified resource,
-		 such as translating the persistent name into one or more
+		 such as translating the persistent URN into one or more
 		 current locators for the resource, delivering metadata about
 		 the resource in an appropriate format,
 		 or even delivering a document object from a convenient
@@ -189,7 +200,7 @@
 		 At the time of this writing, resolution services are
 		 described in <xref target='RFC2483'/>.
 		    <!-- JcK: 20151111: 2483 really makes no attempt to "define" -->
-		 In order to underline the difference between the names and locators, this document uses the term Uniform Resource Locator (URL), rather than the generic term Uniform Resource Identifier (URI), to refer to locators; see also Section 1.1.3 of <xref target='RFC3986'/>.</t>
+		 In order to underline the difference between the URNs and locators, this document uses the term Uniform Resource Locator (URL), rather than the generic term Uniform Resource Identifier (URI), to refer to locators; see also Section 1.1.3 of <xref target='RFC3986'/>.</t>
 
       <t>If there are or will be resolution services available for a
 		 URN, this document calls the URN a "resource identifier" in
@@ -302,14 +313,14 @@
 		   "?", "#", "[", and "]").  While such a string might be a
 		   valid name, it is not a valid URN until it has been
 		   translated into a conformant NSS.  In the case of URNs
-		   that are formed from names that exist separately in a
-		   standalone identifier space, translation of an identifier
+		   that are formed from identifiers that exist separately in 
+		   another identifier space, translation of an identifier
 		   from its "native" format to URN format is accomplished by
 		   using the canonicalization and encoding methods defined
 		   for that URN namespace.  Software that is not aware of
 		   those namespace-specific canonicalization and encoding
-		   rules MUST NOT construct URNs from the names in the
-		   standalone identifier space.
+		   rules MUST NOT construct URNs from the identifiers in the
+		   other identifier space.
 		</t>
 		     <!-- JcK: See Keith Moore note 20151130 "fixing utf-8
 				 language from 2141...".  No action taken 
@@ -387,7 +398,7 @@
 			"?+" sequence (which begins an r-component) or a "#" character (number
 			sign, which begins an f-component) appears.  If neither of those appear, the
 			q-component continues to the end of the URN.  Note the
-			the q-component itself does not include the "?=" delimier
+			the q-component itself does not include the "?=" delimiter
 			or any terminating delimiter.
 			 The characters slash ("/") and question mark ("?") may represent data within the q-component.  Note that characters outside the ASCII range <xref target='RFC20'/> MUST be percent-encoded using the method defined
 			 in Section 2.1 of the generic URI specification <xref target="RFC3986"/>.
@@ -677,7 +688,7 @@
 		   NID to effectively force someone to use a proprietary
 		   network or service not open to the general Internet user.
 		   The intent is that, while the community of those who might
-		   actively use the names assigned within that NID might be
+		   actively use the URNs assigned within that NID might be
 		   small, the potential use of identifiers within that NID is
 		   open to any user on the Internet.  Formal NIDs might be
 		   appropriate even when some aspects are not fully open.  For
@@ -691,8 +702,8 @@
         <t>
           <list style='numbers'>
             <t>Organizational stability and the ability to maintain the URN namespace for a long time; absent such evidence, it ought to be clear how the namespace can remain viable if the organization can no longer maintain the namespace.</t>
-            <t>Competency in name assignment.  This will improve the likelihood of persistence (e.g. to minimize the likelihood of conflicts).</t>
-            <t>Commitment to not reassigning existing names and to allowing old names to continue to be valid (e.g., if the assignee of a name is no longer a member or customer of the assigning organization, if various information about the assignee or named entity happens to change, or even if the assignee or the named entity itself is no longer in existence; in all these cases, the name is still valid).</t>  
+            <t>Competency in URN assignment.  This will improve the likelihood of persistence (e.g. to minimize the likelihood of conflicts).</t>
+            <t>Commitment to not reassigning existing URNs and to allowing old URNs to continue to be valid (e.g., if the assignee of a URN is no longer a member or customer of the assigning organization, if various information about the assignee or named entity happens to change, or even if the assignee or the named entity itself is no longer in existence; in all these cases, the URN is still valid).</t>  
           </list>
         </t>
         <t>A formal namespace establishes a particular NID, subject to the following constraints (above and beyond the syntax rules already specified):</t>
@@ -726,10 +737,10 @@
 		   beyond the scope of this document.
 		</t>
 		<t>	Applicants and reviewers considering new NIDs should
-			also be aware that they may be considered as names with
-			semantic implications and hence a source of conflict.
+			also be aware that they may have
+			semantic implications and hence be a source of conflict.
 			Particular attention should be paid to strings that
-			might be construed as names of, or registered under the
+			might be construed as identifiers for, or registered under the
 			authority of, countries (including ISO 3166-1 alpha-3
 			codes) and to strings that might imply association with
 			existing URI schemes, identifier systems, or trademarks.  
@@ -838,7 +849,7 @@
 		<t>Especially when iterations in the registration process are
 		   prolonged, designated experts are expected to take
 		   reasonable precautions to avoid "race conditions" on proposed
-		   NID names and, if such situations arise, to encourage
+		   NIDs and, if such situations arise, to encourage
 		   applicants to work out any conflicts among themselves.</t>
 
       </section>
