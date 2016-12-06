@@ -21,7 +21,7 @@
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 -->
 <!-- Posting version of -18 is 18b, 2016-09-05 -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-18"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19a"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -51,7 +51,7 @@
       </address>
     </author>
 
-    <date/>
+    <date month="October" day="31" year="2016"/>
 
     <area>Applications</area>
     <workgroup>URNBIS</workgroup>
@@ -132,7 +132,10 @@
 		  is the fairly abstract topic of "resolution",
 		  discussed in <xref target="terms"/>,
 		  <xref target='syntax-r'/>, and
-		  elsewhere below.  It is possible to define the
+		  elsewhere below.  By contrast, that topic is not at all
+		  abstract for traditional URLs or at least for most of the
+		  URI schemes used with them <xref target="RFC3986"/>.  
+		  Consequently, it is possible to define the
 		  relationships quite precisely for a URN that resolves to a
 		  URL, where that URL in turn resolves to (or locates) a single target
 		  document or similar resource; however, that is only one special case
@@ -215,7 +218,7 @@
 		  completed after the earlier URN specifications). </t>
       <t>However, this specification does not extend the URN syntax
 		 to allow direct use of characters outside the ASCII range
-		 <xref target='RFC20'/>.  That prohibition implies that any such
+		 <xref target='RFC20'/>.  That restriction implies that any such
 		 characters need to be percent-encoded as described in
 		 Section 2.1 of the URI specification
 		 <xref target='RFC3986'/>.</t>
@@ -281,7 +284,7 @@
 		   character, which is now allowed, effectively makes it possible
 		   to encapsulate hierarchical names from other identifier systems.  For instance, consider the hypothetical example of a hierarchical identifier system in which the names take the
 		   form of a sequence of numbers separated by the "/" character, such as "1/406/47452/2".  If the authority for such names were to use URNs, it would be natural to place the existing name in the NSS, resulting in URNs such as "urn:example:1/406/47452/2".</t>
-        <t>The changes to the syntax for the NSS do not modify the encoding rules for URN namespaces that were defined in accordance with <xref target='RFC2141'/>.  If any such URN namespace that is used outside of the URN context
+        <t>Those changes to the syntax for the NSS do not modify the encoding rules for URN namespaces that were defined in accordance with <xref target='RFC2141'/>.  If any such URN namespace that is used outside of the URN context
 		   (i.e., in a non-URN identifier system)
 		   also allows the use of "/", "~", or "&amp;" in the native
 		   form within that identifier system, then the encoding rules
@@ -507,7 +510,7 @@
 		   equality comparisons, putting the focus on allowing false
 		   negatives and avoiding false positives.  If comparisons
 		   are made in a scheme-independent way, i.e., as URI
-		   comparisons only, URNs that this specification considers
+		   comparisons only, many URNs that this specification considers
 		   equal would be rejected.  The discussion below applies
 		   when the URIs involved are known to be URNs, and thus uses
                    the terms "URN-equivalent" and "URN-equivalence"
@@ -562,7 +565,8 @@
           </list>
         </t>
         <t>Fourth, because of percent-encoding, the following URNs
-		   are URN-equivalent only to each other (note that, although %2C is the
+		   are URN-equivalent only to each other and not to any of
+		   those above (note that, although %2C is the
 		   percent-encoded transformation of "," from the previous
 		   examples, such sequences are not decoded for purposes of
 		   testing URN-equivalence):</t>
@@ -572,7 +576,7 @@
             <t>URN:EXAMPLE:a123%2cz456</t>
           </list>
         </t>
-        <t>Fifth, because characters other than percent-encoded sequences in the NSS are treated in a case-sensitive manner (unless otherwise specified for the URN namespace in question), the following URNs are not URN-equivalent to the first three URNs:</t>
+        <t>Fifth, because characters in the NSS other than percent-encoded sequences are treated in a case-sensitive manner (unless otherwise specified for the URN namespace in question), the following URNs are not URN-equivalent to the first three URNs:</t>
         <t>
           <list style='symbols'>
             <t>urn:example:A123,z456</t>
@@ -601,7 +605,39 @@
 		   generic URI processors need to pay special attention to the parsing and analysis rules of RFC 3986 and, in particular, must treat the URI as opaque unless the scheme and its requirements are recognized.  In the latter case, such processors may be in a position to invoke scheme-appropriate processing, e.g., by a URN resolver.  A URN resolver can either be an external resolver that the URI resolver knows of, or it can be functionality built into the URI resolver.  Note that this requirement might impose constraints on the contexts in which URNs are appropriately used; see <xref target='uri-slots'/>.</t>
       </section>
       <section title='URNs and Relative References' anchor='uri-rr'>
-        <t> Section 5.2 of <xref target='RFC3986'/> describes an algorithm for converting a URI reference that might be relative to a given base URI into "parsed components" of the target of that reference, which can then be recomposed per RFC 3986 Section 5.3 into a target URI.   This algorithm cannot be applied directly to URNs because their syntax does not support the necessary path components.  Whenever a URN resolves to a URL which may be used to access the resource, there is a more specific interpretation of q-component and f-component: the q-component is copied verbatim to the query portion of the URL (if that URL scheme supports query), and the f-component is copied verbatim to the fragment portion of the URL.  Even though the notion of a URN as a "persistent", "permanent" identifier does not reconcile easily with relative referencing, resources named with URNs may contain relative references that do not apply to the URN itself.</t>
+        <t> Section 5.2 of <xref target='RFC3986'/> describes an algorithm for converting a URI reference that might be relative to a given base URI into "parsed components" of the target of that reference, which can then be recomposed per RFC 3986 Section 5.3 into a target URI.
+		   This algorithm is problematic for URNs because their syntax does not support the necessary path components.
+		   However, if the algorithm is applied independent of a
+		   particular scheme, it should work predictably for URNs as
+		   well, with the following understandings (syntax production
+		   terminology taken from RFC 3986):
+		   <list style="numbers">
+			  <t>A system that encounters a &lt;URI-reference&gt;
+				 that obeys the syntax for &lt;relative-ref&gt;,
+				 whether it explicitly has the scheme "urn" or not,
+				 will convert it into a target URI as specified in
+				 RFC 3986.</t>
+			  <t>Because of the persistence and stability
+				 expectations of URNs, authors of documents, etc.,
+				 that utilize URNs should generally avoid the use of
+				 the "urn" scheme in any &lt;URI-reference&gt; that
+				 is not strictly a &lt;URI&gt; as specified in
+				 RFC 3986, specifically including those that would
+				 require processing of &lt;relative-ref&gt;.
+				 <vspace blankLines="0"/>
+				 <cref>Henry's preferred version of the above is:
+					"Because the result of (i) may well fail to be a
+					valid URI, using a URN to identify a resource
+					(any of) whose representation(s) may contain
+					&lt;relative-ref&gt;s should be avoided."  WG
+					should pick or figure out a way to combine the
+					two.</cref>
+			  </t>
+			  </list></t>
+
+			 <!-- Previous (-18 and earlier) text that attempted to
+			  resolve the relative resolution issues in 2141bis ... 
+		   Whenever a URN resolves to a URL which may be used to access the resource, there is a more specific interpretation of q-component and f-component: the q-component is copied verbatim to the query portion of the URL (if that URL scheme supports query), and the f-component is copied verbatim to the fragment portion of the URL.  Even though the notion of a URN as a "persistent", "permanent" identifier does not reconcile easily with relative referencing, resources named with URNs may contain relative references that do not apply to the URN itself.</t>
         <t>Given the foregoing, a relative reference SHOULD NOT be evaluated directly with respect to a URN.   Instead, a relative reference SHOULD be evaluated indirectly with respect to one of the following:</t>
         <t>
           <list style='numbers'>
@@ -613,6 +649,7 @@
         <t>(Case 2 permits the resolution process to explicitly supply a base URI if the resource content is supplied directly by the resolution service rather than via an intermediate "location" URI.)</t>
         <t>If no such base URI exists, use of a relative reference with respect to a URN is an error.  Client behavior in this case is undefined.</t>      
         <t>Resolution services SHOULD ensure that a base URI is supplied whenever they provide resource content directly to a client.</t>
+			  --> 
       </section>
       <section title='Transport and Display' anchor='uri-display'>
         <t>When URNs are transported and exchanged, they MUST be represented in the format defined herein.  Further, all URN-aware applications MUST offer the option of displaying URNs in this canonical form to allow for direct transcription (for example by cut-and-paste techniques).  Such applications might support display of URNs in a more human-friendly form and might use a character set that includes characters that are not permitted in URN syntax as defined in this specification (e.g., when displaying URNs to humans, such applications might replace percent-encoded strings with characters from an extended character repertoire such as Unicode <xref target='UNICODE'/>).</t>
@@ -1707,7 +1744,8 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
           <t hangText='Date:'>The date when the registration is requested of IANA, using the format YYYY-MM-DD.</t>
           <t hangText='Registrant:'>The person or organization that has registered the NID, including the name and address of the registering organization, as well as the name and contact information (email, phone number, or postal address) of the designated contact person. If the registrant is a recognized standards development organization, scientific society, or similar body requesting the fact track registration procedure (see <xref target='definition-registration-fasttrack'/>), that information should be clearly indicated in this section of the template.</t>
           <t hangText='Purpose:'>Described under <xref target='definition-purpose'/> of this document.</t>
-          <t hangText='Syntax:'>Described under <xref target='definition-syntax'/> of this document.  Unless the registration explicitly describes the semantics of r-components, q-components, and f-components in the context of this URN namespace, the semantics are undefined.</t>
+          <t hangText='Syntax:'>Described under <xref target='definition-syntax'/> of this document.  Unless the registration explicitly describes the semantics of r-components, q-components, and f-components in the context of this URN namespace,
+			 those semantics are undefined.</t>
           <t hangText='Assignment:'>Described under <xref target='definition-assignment'/> of this document.</t>
           <t hangText='Security and Privacy:'>Described under <xref target='definition-security'/> of this document.</t>
           <t hangText='Interoperability:'>Described under <xref target='definition-interop'/> of this document.</t>
@@ -2005,6 +2043,14 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
                                 system', 'URN', and 'NSS'.</t>
 			 <t>Per interim meeting 2016-06-29, changed syntax so that
                                 r-component precedes q-component.</t> 
+		  </list></t>
+	   </section>
+	   <section title="Changes from -18 (2016-09-05) to -19">
+		  <t><list style='symbols'>
+			 <t>Small editorial changes to improve clarity.</t>
+			 <t> Replaced material on relative references to reflect
+				the on-list discussions in August and September and
+				generally to say less and leave more to RFC 3986.</t>
 		  </list></t>
 	   </section>
 	   
