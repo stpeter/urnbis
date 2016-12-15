@@ -15,13 +15,13 @@
 <?rfc toc="yes"?>
 <?rfc tocdepth="3"?>
 <!-- Controls display of <cref> elements and put them inline -->
-<?rfc comments="yes" ?>
+<?rfc comments="no" ?>
 <?rfc inline="yes" ?>
 
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 -->
 <!-- Posting version of -18 is 18b, 2016-09-05 -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19a"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19b"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -31,6 +31,13 @@
     <author initials="P." surname="Saint-Andre" fullname="Peter Saint-Andre">
       <organization>Filament</organization>
       <address>
+        <postal>
+          <street>P.O. Box 787</street>
+          <city>Parker</city>
+          <region>CO</region>
+          <code>80134</code>
+          <country>USA</country>
+        </postal>
         <email>peter@filament.com</email>
         <uri>https://filament.com/</uri>
       </address>
@@ -51,7 +58,7 @@
       </address>
     </author>
 
-    <date month="October" day="31" year="2016"/>
+    <date/>
 
     <area>Applications</area>
     <workgroup>URNBIS</workgroup>
@@ -133,19 +140,22 @@
 		  discussed in <xref target="terms"/>,
 		  <xref target='syntax-r'/>, and
 		  elsewhere below.  By contrast, that topic is not at all
-		  abstract for traditional URLs or at least for most of the
+		  abstract for traditional Uniform Resource Locators (URLs) or at least for most of the
 		  URI schemes used with them <xref target="RFC3986"/>.  
 		  Consequently, it is possible to define the
 		  relationships quite precisely for a URN that resolves to a
-		  URL, where that URL in turn resolves to (or locates) a single target
-		  document or similar resource; however, that is only one special case
+		  locator such as a URL, where that locator in turn resolves to (or locates) a single target
+		  document or similar representation; however, that is only one particular case
 		  (albeit an important one).  URNs (either individually or
-		  entire URN namespaces as defined below) that do not resolve to URLs 
+		  entire URN namespaces as defined below) that do not resolve to locators 
 		  at all or that resolve to metadata or non-Internet objects
 		  are among URN use cases explicitly permitted by this
 		  specification; each leaves the concept of "resolution"
 		  somewhat more abstract and difficult than the simple case of
-		  resolution to a URL.</t>
+		  resolution to a locator.
+                  (On the distinction between names and locators, see 
+                  Section 1.1.3 of <xref target='RFC3986'/>.)
+                  </t>
 	   <t>A similar set of issues arises for character sets and encodings.
 		  URNs, especially URNs that will be used as user-facing
 		  identifiers, should be convenient to use in local languages and
@@ -174,6 +184,7 @@
       <t>
         <list style='hanging'>
           <t hangText='Name:'>A member of a non-URN identifier system or of a URN namespace</t>
+          <t hangText='Locator:'>An identifier that provides a means of accessing a resource</t>
           <t hangText='Identifier system:'>A managed collection of names that exists outside of the URN system</t>
           <t hangText='URN namespace:'>A managed collection of names that is associated with a URN namespace identifier (NID)</t>
           <t hangText='URN:'>A name that is a member of a URN namespace</t>
@@ -194,9 +205,8 @@
 		 source without requiring further intermediaries.
 		    <!-- JcK: 20151111, per conversation with Henry Thompson -->
 		 At the time of this writing, resolution services are
-		 described in <xref target='RFC2483'/>.
+		 described in <xref target='RFC2483'/>.</t>
 		    <!-- JcK: 20151111: 2483 really makes no attempt to "define" -->
-		 In order to underline the difference between names (here, URNs) and locators, this document uses the term Uniform Resource Locator (URL), rather than the generic term Uniform Resource Identifier (URI), to refer to locators; see also Section 1.1.3 of <xref target='RFC3986'/>.</t>
 
       <t>If there are or will be resolution services available for a
 		 URN, this document calls the URN a "resource identifier" in
@@ -350,7 +360,7 @@
 
         <section title='r-component' anchor='syntax-r'>
           <t>The r-component is intended for passing parameters to URN resolution services (taken broadly, see <xref target="weaselWords"/>) and interpreted by those services.  (By contrast, passing parameters to the resources identified by a URN, or to applications that manage such resources, is handled by q-components as described in the next section.)</t>
-     	  <t>The URN r-component has no syntactic counterpart in URLs.</t>
+     	  <t>The URN r-component has no syntactic counterpart in any known URI scheme.</t>
           <t>The sequence "?+" introduces the r-component.
                         The r-component ends with a
 			"?=" sequence (which begins a q-component) or a "#" character (number
@@ -402,13 +412,14 @@
 			     Other changes per Henry Thompson note, 20160508, resulting in
 			     the below.
 			 -->
-			 The URN q-component has the same syntax as the URI query component,
+			 The URN q-component has the same syntax as the query component
+                         in URI schemes for locators,
 			 but is introduced by "?=", not "?" alone.  For URNs that may
-			 be resolved to a URL, the semantics of the q-component are
-			 identical to those for the query component of that URL.  Thus URN
-			 resolvers returning a URL for a URN with a q-component do this by
+			 be resolved to a locator URI, the semantics of the q-component are
+			 identical to those for the query component of that URI.  Thus URN
+			 resolvers returning a locator URI for a URN with a q-component do this by
 			 copying the q-component from the URN to the query component of the
-			 URL.  If the URN does not resolve to a URL, the interpretation of
+			 locator URI.  If the URN does not resolve to a locator URI, the interpretation of
 			 the q-component is undefined by this specification.
 			 An example of the copying operation appears below.</t>
 <!-- Placeholder CREF for -17:
@@ -417,10 +428,10 @@
 			 of that paragraph, namely, using "?=" as an introducer
 			 anywhere in the q-component.</cref></t>  -->
 		  <t>If the URN does not resolve
-			 to a URL (i.e., is an abstract designator) or if it resolves
-			 directly to an object or a non-URL resource designator,
-			 the interpretation of the q-component is undefined by this specification. Thus, for URNs which may be resolved to a URL, the semantics of q-component
-			 are identical to those for queries to the resource located via that URL.</t>
+			 to a locator URI or if it resolves
+			 directly to an object or a non-locator resource designator,
+			 the interpretation of the q-component is undefined by this specification. Thus, for URNs which may be resolved to a locator URI, the semantics of q-component
+			 are identical to those for queries to the resource located via that URI.</t>
           <t>For the sake of consistency with RFC 3986, the general syntax and the semantics of q-components are not defined by, or dependent on, the URN namespace of the URN.  In parallel with RFC 3896, specifics of syntax and semantics, e.g., which keywords or terms are meaningful, of course may depend on a particular URN namespace or even a particular resource.</t>
           <t>The sequence "?=" introduces the q-component.  The q-component terminates when a
 			"#" character appears (number
@@ -453,7 +464,7 @@
 				&amp;lon=-104.85&amp;datetime=1969-07-21T02:56:15Z</t>
 		  </list></t>
           </list></t>
-	      <t>If this example resolved to an HTTP URL, the result might
+	      <t>If this example resolved to an HTTP URI, the result might
 			 look like:
           <list style="empty"> 
 		  <t><list style="hanging">			 
@@ -472,11 +483,11 @@
 			 If the URN does not resolve to a URL (i.e., is an abstract designator),
 			 the interpretation of the f-component is undefined by this specification.
 			  JcK: See Juha notes 20151120, 20151124 -->
-		  If a URN containing an f-component resolves to a single URL
+		  If a URN containing an f-component resolves to a single locator URI
 		  associated with the named resource, the f-component from
 		  the URN can be applied (usually by the client) verbatim as
-		  the fragment of that URL.  If the URN does not resolve to a
-		  URL (e.g., is an abstract designator), the interpretation of the f-component is undefined by this specification.  Thus, for URNs which may be resolved to a URL, the semantics of f-components are identical to those of fragments for that resource.</t>
+		  the fragment of that locator URI.  If the URN does not resolve to a
+		  locator URI, the interpretation of the f-component is undefined by this specification.  Thus, for URNs which may be resolved to a locator URI, the semantics of f-components are identical to those of fragments for that resource.</t>
 	        <!-- JcK: See 20151124 response to Juha for "single" -->
           <t>For the sake of consistency with RFC 3986, neither the general syntax nor the semantics of f-components are defined by, or dependent on, the URN namespace of the URN.  In parallel with RFC 3896, specifics of syntax and semantics, e.g., which keywords or terms are meaningful, of course may depend on a particular URN namespace or even a particular resource.</t>
           <t>The f-component is introduced by the number sign ("#") character and terminated by the end of the URI.
@@ -492,7 +503,7 @@
  	         services unless those services also perform object
              retrieval and interpretation functions.</t> 
           <t>The f-component is primarily intended to distinguish the constituent parts of resources named by URNs.
-			 Thus, for URNs that resolve to URLs of the named resources, <!-- JcK: Juha 20151120 -->
+			 Thus, for URNs that resolve to locator URIs of the named resources, <!-- JcK: Juha 20151120 -->
 			 the semantics of an f-component are defined by the media type of those resources, not by the URN namespace.</t>
           <t>Consider the hypothetical example of obtaining resources that are part of a larger entity (say, the chapters of a book).  Each part could be specified in the f-component, resulting in URNs such as:</t>
           <t>urn:example:foo-bar-baz-qux#somepart</t>
