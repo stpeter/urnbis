@@ -68,7 +68,7 @@
     <keyword>URI</keyword>
 
     <abstract>
-      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) that is assigned under the "urn" scheme and a particular URN namespace, with the intent that the URN will be either a persistent, location-independent resource identifier or in some cases an abstract designator that is persistent but that does not identify a resource.  With regard to URN syntax, this document defines the canonical syntax for URNs (in a way that is consistent with URI syntax), specifies methods for determining URN-equivalence, and discusses URI conformance.  With regard to URN namespaces, this document specifies a method for defining a URN namespace and associating it with a namespace identifier, and describes procedures for registering namespace identifiers with the Internet Assigned Numbers Authority (IANA).  This document obsoletes both RFC 2141 and RFC 3406.</t>
+      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) that is assigned under the "urn" scheme and a particular URN namespace, with the intent that the URN will be a persistent, location-independent resource identifier.  With regard to URN syntax, this document defines the canonical syntax for URNs (in a way that is consistent with URI syntax), specifies methods for determining URN-equivalence, and discusses URI conformance.  With regard to URN namespaces, this document specifies a method for defining a URN namespace and associating it with a namespace identifier, and describes procedures for registering namespace identifiers with the Internet Assigned Numbers Authority (IANA).  This document obsoletes both RFC 2141 and RFC 3406.</t>
     </abstract>
 
   </front>
@@ -76,7 +76,7 @@
   <middle>
 
     <section title='Introduction' anchor='intro'>
-      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) <xref target='RFC3986'/> that is assigned under the "urn" scheme and a particular URN namespace, with the intent that the URN will be either a persistent, location-independent resource identifier or in some cases an abstract designator that is persistent but that does not identify a resource.  A URN namespace is a collection of such URNs, each of which is (1) unique, (2) assigned in a consistent and managed way, and (3) assigned according to a common definition.  (Some URN namespaces create names that exist only as URNs, whereas others assign URNs based on names that were already created in other identifier systems, such as ISBNs <xref target='RFC3187'/> and ISSNs <xref target='RFC3044'/>.)</t>
+      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) <xref target='RFC3986'/> that is assigned under the "urn" scheme and a particular URN namespace, with the intent that the URN will be either a persistent, location-independent resource identifier.  A URN namespace is a collection of such URNs, each of which is (1) unique, (2) assigned in a consistent and managed way, and (3) assigned according to a common definition.  (Some URN namespaces create names that exist only as URNs, whereas others assign URNs based on names that were already created in other identifier systems, such as ISBNs <xref target='RFC3187'/> and ISSNs <xref target='RFC3044'/>.)</t>
       <t>The assignment of URNs is done by an organization (or, in some cases, according to an algorithm or other automated process) that has been formally delegated a URN namespace within the "urn" scheme (e.g., a URN in the 'example' URN namespace <xref target='RFC6963'/> might be of the form "urn:example:foo").</t>
       <t>This document rests on two key assumptions:</t>
       <t>
@@ -135,26 +135,45 @@
 		  Internet and computer systems by centuries; there is
 		  unlikely to be agreement about comprehensive
 		  solutions in the near future.</t>
-	   <t> Among these general issues, one that is specific to URNs
-		  is the fairly abstract topic of "resolution",
+	   <t>Among these general issues, one that is specific to URNs
+		  is the fairly difficult topic of "resolution",
 		  discussed in <xref target="terms"/>,
-		  <xref target='syntax-r'/>, and
-		  elsewhere below.  By contrast, that topic is not at all
-		  abstract for traditional Uniform Resource Locators (URLs) or at least for most of the
-		  URI schemes used with them <xref target="RFC3986"/>.  
-		  Consequently, it is possible to define the
-		  relationships quite precisely for a URN that resolves to a
-		  locator such as a URL, where that locator in turn resolves to (or locates) a single target
-		  document or similar representation; however, that is only one particular case
-		  (albeit an important one).  URNs (either individually or
-		  entire URN namespaces as defined below) that do not resolve to locators 
-		  at all or that resolve to metadata or non-Internet objects
-		  are among URN use cases explicitly permitted by this
-		  specification; each leaves the concept of "resolution"
-		  somewhat more abstract and difficult than the simple case of
-		  resolution to a locator.
+		  <xref target='syntax-r'/>, <xref target='definition-resolution'/>, and
+		  elsewhere below.  By contrast, resolution is relatively
+		  straightforward for traditional Uniform Resource Locators (URLs), 
+                  or at least for most URI schemes for locators, 
+                  because resolution is used to determine an access mechanism
+                  which in turn is used to dereference the locator by (typically)
+                  retrieving a representation of the associated resource  
+                  (see Section 1.2.2 of <xref target="RFC3986"/>).
+		  Consequently, it is possible to define the relevant
+		  relationships quite precisely for URNs that resolve to 
+		  locators (such as URLs) which in turn are dereferenced to a
+                  representation (such as a target document); 
+                  however, that is only one particular case,
+		  albeit an important one.  
+                  This specification permits several other kinds of URNs,
+                  either individually or (as defined below)
+		  collectively for entire URN namespaces. In particular, some 
+                  URNs might resolve to locators which in turn are dereferenced only to 
+                  metadata about the resource, not to a representation of that resource;
+                  an example might be a URN namespace for cataloging of information
+                  resources. Furthermore, some URNs might not be intended to resolve
+                  to locators at all; examples might include URNs identifying 
+                  XML namespace names (e.g., the 'dgiwg' URN namespace 
+                  specified by <xref target='RFC6288'/>), URNs identifying application 
+                  features that can be supported within a communications protocol (e.g.,
+                  the 'alert' URN namespace specified by <xref target='RFC7462'/>),
+                  and URNs identifying enumerated types such as values in a registry
+                  (e.g., a URN namespace could be used to individually identify the 
+                  values in all IANA registries, as provisionally proposed in
+                  <xref target='I-D.saintandre-iana-urn'/>).
+                  These types of URNs leave the concept of "resolution"
+		  somewhat more difficult than the straightforward case of
+		  resolution to a locator that is dereferenced to a representation.
                   (On the distinction between names and locators, see 
-                  Section 1.1.3 of <xref target='RFC3986'/>.)
+                  Section 1.1.3 of <xref target='RFC3986'/>; on the distinction between
+                  representations and metadata, see Section 1.2.2 of <xref target='RFC3986'/>.)
                   </t>
 	   <t>A similar set of issues arises for character sets and encodings.
 		  URNs, especially URNs that will be used as user-facing
@@ -201,19 +220,13 @@
 		 such as translating the persistent URN into one or more
 		 current locators for the resource, delivering metadata about
 		 the resource in an appropriate format,
-		 or even delivering a document object from a convenient
-		 source without requiring further intermediaries.
+		 or even delivering a representation of the resource (e.g., a document) 
+		 without requiring further intermediaries.
 		    <!-- JcK: 20151111, per conversation with Henry Thompson -->
 		 At the time of this writing, resolution services are
 		 described in <xref target='RFC2483'/>.</t>
 		    <!-- JcK: 20151111: 2483 really makes no attempt to "define" -->
 
-      <t>If there are or will be resolution services available for a
-		 URN, this document calls the URN a "resource identifier" in
-		 roughly the sense that term is used in <xref target='RFC3986'/>.  If there
-		 is no intention to provide any resolution services, and the
-		 distinction is important, this document calls the URN an
-		 "abstract designator".</t> 
       <t>Several other important terms used in this document, including some "normalization" operations that are not part of the Unicode Standard <xref target='UNICODE'/>, are defined in the URI specification <xref target='RFC3986'/>.</t>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target='RFC2119'/>.</t>
     </section>
@@ -428,8 +441,9 @@
 			 of that paragraph, namely, using "?=" as an introducer
 			 anywhere in the q-component.</cref></t>  -->
 		  <t>If the URN does not resolve
-			 to a locator URI or if it resolves
-			 directly to an object or a non-locator resource designator,
+			 to a locator URI 
+                         <!--or if it resolves
+			 directly to an object or a non-locator resource designator-->,
 			 the interpretation of the q-component is undefined by this specification. Thus, for URNs which may be resolved to a locator URI, the semantics of q-component
 			 are identical to those for queries to the resource located via that URI.</t>
           <t>For the sake of consistency with RFC 3986, the general syntax and the semantics of q-components are not defined by, or dependent on, the URN namespace of the URN.  In parallel with RFC 3896, specifics of syntax and semantics, e.g., which keywords or terms are meaningful, of course may depend on a particular URN namespace or even a particular resource.</t>
@@ -480,7 +494,7 @@
           <t>The URN f-component has the same syntax as the URI fragment component.
 			 <!-- When a URN containing an f-component resolves to a URL, the f-component
 			 from the URN is copied verbatim into the fragment of that URL.
-			 If the URN does not resolve to a URL (i.e., is an abstract designator),
+			 If the URN does not resolve to a URL,
 			 the interpretation of the f-component is undefined by this specification.
 			  JcK: See Juha notes 20151120, 20151124 -->
 		  If a URN containing an f-component resolves to a single locator URI
@@ -504,7 +518,7 @@
              retrieval and interpretation functions.</t> 
           <t>The f-component is primarily intended to distinguish the constituent parts of resources named by URNs.
 			 Thus, for URNs that resolve to locator URIs of the named resources, <!-- JcK: Juha 20151120 -->
-			 the semantics of an f-component are defined by the media type of those resources, not by the URN namespace.</t>
+			 the semantics of an f-component are defined by the media type of the representations into which those locator URIs are dereferenced, not by the URN namespace.</t>
           <t>Consider the hypothetical example of obtaining resources that are part of a larger entity (say, the chapters of a book).  Each part could be specified in the f-component, resulting in URNs such as:</t>
           <t>urn:example:foo-bar-baz-qux#somepart</t>
         </section>
@@ -1000,8 +1014,7 @@
       <section title='Resolution' anchor='definition-resolution'>
         <t>The "Resolution" section MUST specify whether resolution mechanisms
            are intended or anticipated for URNs assigned within the
-           URN namespace (e.g., URNs within some URN namespaces are intended to act as
-           abstract designators and thus are not intended to be resolved).
+           URN namespace.
         </t>
         <t>If resolution is intended, then this section SHOULD specify whether the 
            organization that assigns URNs within the URN namespace intends to operate or 
@@ -1240,6 +1253,23 @@ specifications of each URI scheme.
 <seriesInfo name='Internet-Draft' value='draft-ietf-urnbis-semantics-clarif-04' />
 <format type='TXT'
         target='http://www.ietf.org/internet-drafts/draft-ietf-urnbis-semantics-clarif-04.txt' />
+</reference>
+
+<reference anchor='I-D.saintandre-iana-urn'>
+<front>
+<title>A Uniform Resource Name (URN) Namespace for IANA Registries</title>
+<author initials='P' surname='Saint-Andre' fullname='Peter Saint-Andre'>
+    <organization />
+</author>
+<author initials='M' surname='Cotton' fullname='Michelle Cotton'>
+    <organization />
+</author>
+<date month='February' day='13' year='2013' />
+<abstract><t>This document defines a Uniform Resource Name (URN) namespace for uniquely identifying information contained in registries maintained by the Internet Assigned Numbers Authority (IANA).</t></abstract>
+</front>
+<seriesInfo name='Internet-Draft' value='draft-saintandre-iana-urn-01' />
+<format type='TXT'
+        target='http://www.ietf.org/internet-drafts/draft-saintandre-iana-urn-01.txt' />
 </reference>
 
 <reference anchor="DOI-URI"
@@ -1574,6 +1604,17 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 <seriesInfo name='DOI' value='10.17487/RFC6120'/>
 </reference>
 
+<reference  anchor='RFC6288' target='http://www.rfc-editor.org/info/rfc6288'>
+<front>
+<title>URN Namespace for the Defence Geospatial Information Working Group (DGIWG)</title>
+<author initials='C.' surname='Reed' fullname='C. Reed'><organization /></author>
+<date year='2011' month='August' />
+<abstract><t>This document describes the Namespace Identifier (NID) for Uniform Resource Name (URN) Namespace resources published by the Defence Geospatial Information Working Group (DGIWG).  The DGIWG defines and manages resources that utilize this URN name model.</t><t>Management activities for these and other resource types are provided by the DGIWG Registry System (DRS).  This document is not an Internet  Standards Track specification; it is published for informational purposes.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='6288'/>
+<seriesInfo name='DOI' value='10.17487/RFC6288'/>
+</reference>
+
 <reference anchor='RFC6648'>
 <front>
 <title>Deprecating the "X-" Prefix and Similar Constructs in Application Protocols</title>
@@ -1680,6 +1721,21 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 <seriesInfo name='BCP' value='190' />
 <seriesInfo name='RFC' value='7320' />
 <format type='TXT' octets='18275' target='http://www.rfc-editor.org/rfc/rfc7320.txt' />
+</reference>
+
+<reference  anchor='RFC7462' target='http://www.rfc-editor.org/info/rfc7462'>
+<front>
+<title>URNs for the Alert-Info Header Field of the Session Initiation Protocol (SIP)</title>
+<author initials='L.' surname='Liess' fullname='L. Liess' role='editor'><organization /></author>
+<author initials='R.' surname='Jesske' fullname='R. Jesske'><organization /></author>
+<author initials='A.' surname='Johnston' fullname='A. Johnston'><organization /></author>
+<author initials='D.' surname='Worley' fullname='D. Worley'><organization /></author>
+<author initials='P.' surname='Kyzivat' fullname='P. Kyzivat'><organization /></author>
+<date year='2015' month='March' />
+<abstract><t>The Session Initiation Protocol (SIP) supports the capability to provide a reference to a specific rendering to be used by the User Agent (UA) as an alerting signal (e.g., a ring tone or ringback tone) when the user is alerted.  This is done using the Alert-Info header field.  However, the reference (typically a URL) addresses only a specific network resource with specific rendering properties.  There is currently no support for standard identifiers for describing the semantics of the alerting situation or the characteristics of the alerting signal, without being tied to a particular rendering.  To overcome these limitations and support new applications, a new family of URNs for use in Alert-Info header fields (and situations with similar requirements) is defined in this specification.</t><t>This document normatively updates RFC 3261, which defines the Session Initiation Protocol (SIP).  It changes the usage of the Alert-Info header field defined in RFC 3261 by additionally allowing its use in any non-100 provisional response to INVITE.  This document also permits proxies to add or remove an Alert-Info header field and to add or remove Alert-Info header field values.</t></abstract>
+</front>
+<seriesInfo name='RFC' value='7462'/>
+<seriesInfo name='DOI' value='10.17487/RFC7462'/>
 </reference>
 
 &rfc7613;
@@ -2007,8 +2063,8 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 			 <t> Made it more clear that r-components, despite the
 				partial syntax specification, are reserved for future
 				standardization.</t>
-			 <t> Clarified that there can be URNs that neither
-				resolve to URLs nor are abstract designators.</t>
+			 <t> Clarified that there can be URNs that do not
+				resolve to URLs.</t>
 			 <t>Added pointers to make it clear that the Syntax
 				material in <xref target='syntax'/> is not
 				self-contained, e.g., that its subsections and other sections further
