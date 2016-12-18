@@ -21,7 +21,7 @@
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 -->
 <!-- Posting version of -18 is 18b, 2016-09-05 -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19b"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19c"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -120,26 +120,40 @@
 		 in this document is slightly different from those older
 		 specifications. </t>
 
-	<section title="Specificity and this Standard" anchor="weaselWords">
+	<section title="Design Tradeoffs" anchor="tradeoffs">
 	   <t>To a degree much greater than when URNs were first
 		  considered and their uses outlined
 		  (see <xref target="RFC1737"/>), issues of persistent
 		  identifiers on the Internet involve fundamental design
-		  tradeoffs and research questions that are much broader than
-		  URNs or the URN approach.  Ideal and comprehensive
+		  tradeoffs that are much broader than URNs or the URN approach, 
+                  and even touch on open research questions
+                  within the information sciences community.  Ideal and comprehensive
 		  specifications about what should be done or required across
 		  the entire range of URNs would require general agreement about,
-		  and solutions to, those issues.  While some of those issues were
+		  and solutions to, a wide range of such issues.  While some of those issues were
 		  introduced by the Internet or computer-age approaches to
 		  character encodings and data abstraction, others predate the
 		  Internet and computer systems by centuries; there is
 		  unlikely to be agreement about comprehensive
 		  solutions in the near future.</t>
-	   <t>Among these general issues, one that is specific to URNs
+          <t>Although this specification 
+                  consequently contains some requirements
+		  and flexibility that would not be present in a more perfect
+		  world, this has been are necessary in order to produce a
+		  consensus specification that provides a modernized definition
+                  of URNs (the unattractive alternative would have been to not
+                  modernize the definition based on widespread deployment).</t>
+          <t>The following sub-sections describe two of the relevant issues in greater detail.</t>
+	        <!-- JcK 20160126 (former CREF1): We know what those
+				  are and can list them (the
+				  change log for -15 contains a hint or two).  I would rather
+				  not, but this is ultimately up to the WG.  -->
+	  <section title="Resolution" anchor="tradeoffs-resolution">
+	   <t>One issue that is specific to URNs (as opposed to naming systems in general)
 		  is the fairly difficult topic of "resolution",
 		  discussed in <xref target="terms"/>,
 		  <xref target='syntax-r'/>, <xref target='definition-resolution'/>, and
-		  elsewhere below.  By contrast, resolution is relatively
+		  elsewhere below.  By contrast with URNs, resolution is relatively
 		  straightforward for traditional Uniform Resource Locators (URLs), 
                   or at least for most URI schemes for locators, 
                   because resolution is used to determine an access mechanism
@@ -151,14 +165,18 @@
 		  locators (such as URLs) which in turn are dereferenced to a
                   representation (such as a target document); 
                   however, that is only one particular case,
-		  albeit an important one.  
+		  albeit an important one.  </t>
+                  <t>
                   This specification permits several other kinds of URNs,
                   either individually or (as defined below)
-		  collectively for entire URN namespaces. In particular, some 
+		  collectively for entire URN namespaces. In particular:
+                  <list style='symbols'>
+                  <t>Some 
                   URNs might resolve to locators which in turn are dereferenced only to 
                   metadata about the resource, not to a representation of that resource;
                   an example might be a URN namespace for cataloging of information
-                  resources. Furthermore, some URNs might not be intended to resolve
+                  resources.</t>
+                  <t>Some URNs might not be intended to resolve
                   to locators at all; examples might include URNs identifying 
                   XML namespace names (e.g., the 'dgiwg' URN namespace 
                   specified by <xref target='RFC6288'/>), URNs identifying application 
@@ -167,7 +185,8 @@
                   and URNs identifying enumerated types such as values in a registry
                   (e.g., a URN namespace could be used to individually identify the 
                   values in all IANA registries, as provisionally proposed in
-                  <xref target='I-D.saintandre-iana-urn'/>).
+                  <xref target='I-D.saintandre-iana-urn'/>).</t>
+                  </list>
                   These types of URNs leave the concept of "resolution"
 		  somewhat more difficult than the straightforward case of
 		  resolution to a locator that is dereferenced to a representation.
@@ -175,7 +194,9 @@
                   Section 1.1.3 of <xref target='RFC3986'/>; on the distinction between
                   representations and metadata, see Section 1.2.2 of <xref target='RFC3986'/>.)
                   </t>
-	   <t>A similar set of issues arises for character sets and encodings.
+          </section>
+	  <section title="Character Sets and Encodings" anchor="tradeoffs-encoding">
+	   <t>A similar set of considations apply to character sets and encodings.
 		  URNs, especially URNs that will be used as user-facing
 		  identifiers, should be convenient to use in local languages and
 		  writing systems, easily specified with a wide range of keyboards
@@ -187,15 +208,7 @@
 		  framework that should make generalized parsing and processing 
 		  possible, but also makes recommendations about rules for 
 		  individual URN namespaces.</t>
-	   <t>Although this specification consequently contains some requirements
-		  and flexibility that would not be present in a more perfect
-		  world, this has been are necessary in order to produce any
-		  consensus specification at all, rather than just giving up on
-		  URNs despite their widespread deployment.</t>
-	        <!-- JcK 20160126 (former CREF1): We know what those
-				  are and can list them (the
-				  change log for -15 contains a hint or two).  I would rather
-				  not, but this is ultimately up to the WG.  -->
+          </section>
 	</section>	  
 
     <section title="Terminology" anchor="terms">
@@ -212,6 +225,7 @@
           <t hangText='Assigned-name:'>The combination of the 'urn:' scheme, the NID, and the NSS</t>
         </list>
       </t>
+      <t>This document uses the terms "resource", "identifier", "identify", "dereference", "representation", and "metadata" as defined in the URI specification <xref target='RFC3986'/>.  Several other important terms used in this document, including some "normalization" operations that are not part of the Unicode Standard <xref target='UNICODE'/>, are also defined in RFC 3986.</t>
       <t>This document uses the terms "resolution" and "resolver" in
 		 roughly the sense in which they were used in the original
 		 discussion of architectural principles for
@@ -226,8 +240,6 @@
 		 At the time of this writing, resolution services are
 		 described in <xref target='RFC2483'/>.</t>
 		    <!-- JcK: 20151111: 2483 really makes no attempt to "define" -->
-
-      <t>Several other important terms used in this document, including some "normalization" operations that are not part of the Unicode Standard <xref target='UNICODE'/>, are defined in the URI specification <xref target='RFC3986'/>.</t>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target='RFC2119'/>.</t>
     </section>
 	</section>
@@ -342,7 +354,7 @@
 		   in UTF-8 and further encoded as required by RFC 3986.
 		   To the extent feasible consistent with the requirements of
 		   names defined and standardized elsewhere, as well as the
-		   principles discussed in <xref target="weaselWords"/>,
+		   principles discussed in <xref target="tradeoffs"/>,
 		   the characters used to represent names SHOULD be restricted to 
                    either ASCII letters and
 		   digits or to the characters and syntax of some widely-used
@@ -372,7 +384,7 @@
 		   The following sections describe these optional components and their interpretation in greater detail.</t>
 
         <section title='r-component' anchor='syntax-r'>
-          <t>The r-component is intended for passing parameters to URN resolution services (taken broadly, see <xref target="weaselWords"/>) and interpreted by those services.  (By contrast, passing parameters to the resources identified by a URN, or to applications that manage such resources, is handled by q-components as described in the next section.)</t>
+          <t>The r-component is intended for passing parameters to URN resolution services (taken broadly, see <xref target="tradeoffs"/>) and interpreted by those services.  (By contrast, passing parameters to the resources identified by a URN, or to applications that manage such resources, is handled by q-components as described in the next section.)</t>
      	  <t>The URN r-component has no syntactic counterpart in any known URI scheme.</t>
           <t>The sequence "?+" introduces the r-component.
                         The r-component ends with a
@@ -2118,6 +2130,9 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 			 <t> Replaced material on relative references to reflect
 				the on-list discussions in August and September and
 				generally to say less and leave more to RFC 3986.</t>
+                         <t>Expanded the discussion of resolution, dereferencing, representations, metadata, and intended uses for URNs.</t>
+			 <t>Removed the term "abstract designator".</t>
+                         <t>Replaced the term "URL" in most instances with the term "locator" or the term "locator URI".</t>
 		  </list></t>
 	   </section>
 	   
