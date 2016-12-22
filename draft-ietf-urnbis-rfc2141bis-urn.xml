@@ -21,7 +21,7 @@
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 -->
 <!-- Posting version of -18 is 18b, 2016-09-05 -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19c"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19d"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -438,13 +438,13 @@
 			resolution service identifiers.</t>
 		  <t>Consider the hypothetical
             example of passing parameters to a resolution service (say,
-            an ISO alpha-2 country code <xref target='ISO3166-1'/> in
+            an ISO alpha-2 country code <xref target='ISO.3166-1'/> in
             order to select the preferred country in which to
             search for a physical copy of a book).  This could perhaps
             be accomplished by specifying the country code in the
             r-component, resulting in URNs such as:</t>
 		  <t><list style="empty">
-             <t>urn:example:foo-bar-baz-qux?+CCResolve: cc=uk</t></list></t>
+             <t>urn:example:foo-bar-baz-qux?+CCResolve:cc=uk</t></list></t>
 		  <t> While the above should serve as a general explanation
 			 and illustration of the intent for r-components, there
 			 are many unresolved issues with them, including their
@@ -466,10 +466,9 @@
 			     Other changes per Henry Thompson note, 20160508, resulting in
 			     the below.
 			 -->
-			 The URN q-component has the same syntax as the query component
-                         in URI schemes for locators,
+			 The URN q-component has the same syntax as the URI query component,
 			 but is introduced by "?=", not "?" alone.  For URNs that may
-			 be resolved to a locator URI, the semantics of the q-component are
+			 be resolved to a URI for a locator, the semantics of the q-component are
 			 identical to those for the query component of that URI.  Thus URN
 			 resolvers returning a locator URI for a URN with a q-component do this by
 			 copying the q-component from the URN to the query component of the
@@ -557,9 +556,13 @@
              Clients SHOULD NOT pass f-components to resolution
  	         services unless those services also perform object
              retrieval and interpretation functions.</t> 
-          <t>The f-component is primarily intended to distinguish the constituent parts of resources named by URNs.
-			 Thus, for URNs that resolve to locator URIs of the named resources, <!-- JcK: Juha 20151120 -->
-			 the semantics of an f-component are defined by the media type of the representations into which those locator URIs are dereferenced, not by the URN namespace.</t>
+          <t>The f-component is primarily intended to distinguish the constituent
+             parts of a resource named by a URN.  For a URN that resolves to one
+             or more locators which can be dereferenced to a representation, or
+             where the URN resolver directly returns a representation of the
+             resource, the semantics of an f-component are defined by the media
+             type of the representation, not by the URN namespace. 
+          </t>
           <t>Consider the hypothetical example of obtaining resources that are part of a larger entity (say, the chapters of a book).  Each part could be specified in the f-component, resulting in URNs such as:</t>
           <t>urn:example:foo-bar-baz-qux#somepart</t>
         </section>
@@ -719,7 +722,7 @@
       </section>
       <section title='Transport and Display' anchor='uri-display'>
         <t>When URNs are transported and exchanged, they MUST be represented in the format defined herein.  Further, all URN-aware applications MUST offer the option of displaying URNs in this canonical form to allow for direct transcription (for example by cut-and-paste techniques).  Such applications might support display of URNs in a more human-friendly form and might use a character set that includes characters that are not permitted in URN syntax as defined in this specification (e.g., when displaying URNs to humans, such applications might replace percent-encoded strings with characters from an extended character repertoire such as Unicode <xref target='UNICODE'/>).</t>
-        <t>To minimize user confusion, a URI browser SHOULD display the complete URN (including the "urn" scheme and any components) to ensure that there is no confusion between URN NIDs and URI scheme identifiers.  For example, a URI beginning with "urn:xmpp:" <xref target='RFC4854'/> is very different from a URI beginning with "xmpp:" <xref target='RFC5122'/>.  Similarly, a potential DOI URI scheme <xref target="DOI-URI"/> is different from, and possibly completely unrelated to, a possible DOI URN namespace.</t>
+        <t>To minimize user confusion, any application displaying URIs SHOULD display the complete URN (including the "urn" scheme and any components) to ensure that there is no confusion between URN NIDs and URI scheme identifiers.  For example, a URI beginning with "urn:xmpp:" <xref target='RFC4854'/> is very different from a URI beginning with "xmpp:" <xref target='RFC5122'/>.  Similarly, a potential DOI URI scheme <xref target="DOI-URI"/> is different from, and possibly completely unrelated to, a possible DOI URN namespace.</t>
       </section>
       <section title='URI Design and Ownership' anchor='uri-design'>
         <t>As mentioned, the assignment of URNs within a URN namespace is a managed process, as is the assignment of URN namespaces themselves.  Although design of the URNs to be assigned within a given URN namespace is ceded by this specification to the URN namespace manager, doing so in a managed way avoids the problems inherent in unmanaged generation of URIs as described in the recommendations regarding URI design and ownership <xref target='RFC7320'/>.</t>
@@ -787,12 +790,18 @@
           <list style='numbers'>
             <t>It MUST NOT be an already-registered NID.</t>
             <t>It MUST NOT start with "urn-" (which is reserved for informal URN namespaces).</t>
-            <t>It MUST be more than two characters long.</t>
-            <t>It MUST NOT start with ALPHA ALPHA "-", i.e., any string
-               consisting of two letters followed by one hyphen.</t>
+            <t>It MUST be more than two characters long and it 
+               MUST NOT start with ALPHA ALPHA "-", i.e., any string
+               consisting of two letters followed by one hyphen; such strings
+               are reserved for potential use as NIDs based on ISO alpha-2 
+               country codes <xref target="ISO.3166-1"/> for eventual national 
+               registrations of URN namespaces (however, the definition and 
+               scoping of rules for allocation of responsibility for such 
+               country-code-based URN namespaces are beyond the scope of this 
+               document).</t>
             <t>It MUST NOT start with the string
                "xn--" or any other string consisting of two letters
-              followed by two hyphens.  Such strings are reserved
+              followed by two hyphens; such strings are reserved
               for potential representation of DNS A-labels and
                similar strings in the future <xref target='RFC5890'/>.</t>
             <t>It MUST NOT start with the string "X-" so that it will not be confused with or conflict any experimental URN namespace previously permitted by <xref target='RFC3406'/>.</t>
@@ -803,15 +812,6 @@
 			confusing.</t> -->
           </list>
         </t>
-        <t>All two-letter strings, and all two-letter strings
-		   followed by "-" and any sequence of valid NID characters,
-		   are reserved for potential use as NIDs based on ISO alpha-2
-		   country codes <xref target="ISO3166-1"/>
-		   for eventual national registrations of URN namespaces.
-		   The definition and scoping of rules for allocation of
-		   responsibility for such country-code-based URN namespaces is
-		   beyond the scope of this document.
-		</t>
 		<t>	Applicants and reviewers considering new NIDs should
 			also be aware that they may have
 			semantic implications and hence be a source of conflict.
@@ -829,7 +829,7 @@
       </section>
 
       <section title='Informal URN Namespaces' anchor='ns-informal'>
-        <t>Informal URN namespaces are full-fledged URN namespaces, with all the associated rights and responsibilities.  Informal URN namespaces differ from formal URN namespaces in the process for assigning a NID: for an informal URN namespace, the registrant does not designate the NID; instead, IANA assigns a NID consisting of the string 'urn-' followed by one or more digits (e.g., "urn-7") where the digits consist of the next available number in the sequence of positive integers assigned to informal URN namespaces.  Thus the syntax of an informal URN namespace is:</t>
+        <t>Informal URN namespaces are full-fledged URN namespaces, with all the associated rights and responsibilities.  Informal URN namespaces differ from formal URN namespaces in the process for assigning a NID: for an informal URN namespace, the registrant does not designate the NID; instead, IANA assigns a NID consisting of the string 'urn-' followed by one or more digits (e.g., "urn-7") where the digits consist of the next available number in the sequence of positive integers assigned to informal URN namespaces.  Thus the syntax of an informal URN namespace identifier is:</t>
         <figure>
           <artwork><![CDATA[
     InformalNamespaceName = "urn-" Number
@@ -1329,7 +1329,7 @@ specifications of each URI scheme.
 </reference>	
 
 <!-- <reference anchor="ISO.3166-1.2006">  -->
-<reference anchor="ISO3166-1">
+<reference anchor="ISO.3166-1">
    <front>
 	  <title>Codes for the representation of names of countries and
 		 their subdivisions -- Part 1: Country codes </title> 
