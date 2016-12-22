@@ -120,97 +120,6 @@
 		 in this document is slightly different from those older
 		 specifications. </t>
 
-	<section title="Design Tradeoffs" anchor="tradeoffs">
-	   <t>To a degree much greater than when URNs were first
-		  considered and their uses outlined
-		  (see <xref target="RFC1737"/>), issues of persistent
-		  identifiers on the Internet involve fundamental design
-		  tradeoffs that are much broader than URNs or the URN approach, 
-                  and even touch on open research questions
-                  within the information sciences community.  Ideal and comprehensive
-		  specifications about what should be done or required across
-		  the entire range of URNs would require general agreement about,
-		  and solutions to, a wide range of such issues.  While some of those issues were
-		  introduced by the Internet or computer-age approaches to
-		  character encodings and data abstraction, others predate the
-		  Internet and computer systems by centuries; there is
-		  unlikely to be agreement about comprehensive
-		  solutions in the near future.</t>
-          <t>Although this specification 
-                  consequently contains some requirements
-		  and flexibility that would not be present in a more perfect
-		  world, this has been are necessary in order to produce a
-		  consensus specification that provides a modernized definition
-                  of URNs (the unattractive alternative would have been to not
-                  modernize the definition based on widespread deployment).</t>
-          <t>The following sub-sections describe two of the relevant issues in greater detail.</t>
-	        <!-- JcK 20160126 (former CREF1): We know what those
-				  are and can list them (the
-				  change log for -15 contains a hint or two).  I would rather
-				  not, but this is ultimately up to the WG.  -->
-	  <section title="Resolution" anchor="tradeoffs-resolution">
-	   <t>One issue that is specific to URNs (as opposed to naming systems in general)
-		  is the fairly difficult topic of "resolution",
-		  discussed in <xref target="terms"/>,
-		  <xref target='syntax-r'/>, <xref target='definition-resolution'/>, and
-		  elsewhere below.  By contrast with URNs, resolution is relatively
-		  straightforward for traditional Uniform Resource Locators (URLs), 
-                  or at least for most URI schemes for locators, 
-                  because resolution is used to determine an access mechanism
-                  which in turn is used to dereference the locator by (typically)
-                  retrieving a representation of the associated resource  
-                  (see Section 1.2.2 of <xref target="RFC3986"/>).
-		  Consequently, it is possible to define the relevant
-		  relationships quite precisely for URNs that resolve to 
-		  locators (such as URLs) which in turn are dereferenced to a
-                  representation (such as a target document); 
-                  however, that is only one particular case,
-		  albeit an important one.  </t>
-                  <t>
-                  This specification permits several other kinds of URNs,
-                  either individually or (as defined below)
-		  collectively for entire URN namespaces. In particular:
-                  <list style='symbols'>
-                  <t>Some 
-                  URNs might resolve to locators which in turn are dereferenced only to 
-                  metadata about the resource, not to a representation of that resource;
-                  an example might be a URN namespace for cataloging of information
-                  resources.</t>
-                  <t>Some URNs might not be intended to resolve
-                  to locators at all; examples might include URNs identifying 
-                  XML namespace names (e.g., the 'dgiwg' URN namespace 
-                  specified by <xref target='RFC6288'/>), URNs identifying application 
-                  features that can be supported within a communications protocol (e.g.,
-                  the 'alert' URN namespace specified by <xref target='RFC7462'/>),
-                  and URNs identifying enumerated types such as values in a registry
-                  (e.g., a URN namespace could be used to individually identify the 
-                  values in all IANA registries, as provisionally proposed in
-                  <xref target='I-D.saintandre-iana-urn'/>).</t>
-                  </list>
-                  These types of URNs leave the concept of "resolution"
-		  somewhat more difficult than the straightforward case of
-		  resolution to a locator that is dereferenced to a representation.
-                  (On the distinction between names and locators, see 
-                  Section 1.1.3 of <xref target='RFC3986'/>; on the distinction between
-                  representations and metadata, see Section 1.2.2 of <xref target='RFC3986'/>.)
-                  </t>
-          </section>
-	  <section title="Character Sets and Encodings" anchor="tradeoffs-encoding">
-	   <t>A similar set of considations apply to character sets and encodings.
-		  URNs, especially URNs that will be used as user-facing
-		  identifiers, should be convenient to use in local languages and
-		  writing systems, easily specified with a wide range of keyboards
-		  and local conventions, and unambiguous.  There are tradeoffs
-		  among those goals and it is impossible at present to see how a simple
-		  and readily-understandable set of rules could be developed that
-		  would be optimal, or even reasonable, for all URNs.  The
-		  discussion in <xref target='syntax-nss'/> defines an overall 
-		  framework that should make generalized parsing and processing 
-		  possible, but also makes recommendations about rules for 
-		  individual URN namespaces.</t>
-          </section>
-	</section>	  
-
     <section title="Terminology" anchor="terms">
       <t>The following terms are distinguished from each other as described below:</t>
       <t>
@@ -225,7 +134,7 @@
           <t hangText='Assigned-name:'>The combination of the 'urn:' scheme, the NID, and the NSS</t>
         </list>
       </t>
-      <t>This document uses the terms "resource", "identifier", "identify", "dereference", "representation", and "metadata" as defined in the URI specification <xref target='RFC3986'/>.  Several other important terms used in this document, including some "normalization" operations that are not part of the Unicode Standard <xref target='UNICODE'/>, are also defined in RFC 3986.</t>
+      <t>This document uses the terms "resource", "identifier", "identify", "dereference", "representation", and "metadata" roughly as defined in the URI specification <xref target='RFC3986'/>.</t>
       <t>This document uses the terms "resolution" and "resolver" in
 		 roughly the sense in which they were used in the original
 		 discussion of architectural principles for
@@ -236,13 +145,133 @@
 		 the resource in an appropriate format,
 		 or even delivering a representation of the resource (e.g., a document) 
 		 without requiring further intermediaries.
-		    <!-- JcK: 20151111, per conversation with Henry Thompson -->
 		 At the time of this writing, resolution services are
 		 described in <xref target='RFC2483'/>.</t>
-		    <!-- JcK: 20151111: 2483 really makes no attempt to "define" -->
+      <t>On the distinction between names and locators, see Section 1.1.3 of <xref target='RFC3986'/>; on the distinction between representations and metadata, see Section 1.2.2 of <xref target='RFC3986'/>.</t>
+      <t>Several other terms related to "normalization" operations that are not part of the Unicode Standard <xref target='UNICODE'/> are also used here as they are in RFC 3986.</t>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target='RFC2119'/>.</t>
     </section>
-	</section>
+        <!-- 
+          new subsection in -19 
+        -->
+	<section title="Design Tradeoffs" anchor="tradeoffs">
+	   <t>To a degree much greater than when URNs were first
+		  considered and their uses outlined
+		  (see <xref target="RFC1737"/>), issues of persistent
+		  identifiers on the Internet involve fundamental design
+		  tradeoffs that are much broader than URNs or the URN approach, 
+                  and even touch on open research questions
+                  within the information sciences community.  Ideal and comprehensive
+		  specifications about what should be done or required across
+		  the entire universe of URNs would require general agreement about,
+		  and solutions to, a wide range of such issues.  
+                  Although some of those issues were
+		  introduced by the Internet or computer-age approaches to
+		  character encodings and data abstraction, others predate the
+		  Internet and computer systems by centuries; there is
+		  unlikely to be agreement about comprehensive
+		  solutions in the near future.</t>
+          <t>Although this specification 
+                  consequently contains some requirements
+		  and flexibility that would not be present in a more perfect
+		  world, this has been necessary in order to produce a
+		  consensus specification that provides a modernized definition
+                  of URNs (the unattractive alternative would have been to not
+                  modernize the definition based on widespread deployment).</t>
+          <t>The following sub-sections describe two of the relevant issues in greater detail.</t>
+	        <!-- JcK 20160126 (former CREF1): We know what those
+				  are and can list them (the
+				  change log for -15 contains a hint or two).  I would rather
+				  not, but this is ultimately up to the WG.  -->
+	  <section title="Resolution" anchor="tradeoffs-resolution">
+	   <t>One issue that is specific to URNs (as opposed to naming systems in general)
+		  is the fairly difficult topic of "resolution",
+		  discussed in <xref target="terms"/>,
+		  <xref target='syntax-r'/>, <xref target='definition-resolution'/>, and
+		  elsewhere below.
+           </t>
+           <t>With traditional Uniform Resource Locators (URLs), 
+                  i.e. with most URI schemes for locators, 
+                  resolution is relatively straightforward 
+                  because it is used to determine an access mechanism
+                  which in turn is used to dereference the locator by (typically)
+                  retrieving a representation of the associated resource,
+                  such as a document
+                  (see Section 1.2.2 of <xref target="RFC3986"/>).
+           </t>
+           <t>By contrast, resolution for URNs is more complex.  
+           </t>
+           <t>One important case involves the mapping of a URN to one
+                  or more locators.  In this case, the end result is
+                  still a matter of dereferencing the mapped locator(s)
+                  to one or more representations.  The primary difference
+                  here is persistence: even if a mapped locator has changed 
+                  (e.g., a DNS domain name has changed hands and a URL has 
+                  not been modified to point to a new location), a URN user
+                  will be able to obtain the correct representation (e.g., 
+                  a document) as long as the resolver has kept its URN-to-URL 
+                  mappings up to date.  Consequently, the relevant
+		  relationships can be defined quite precisely for URNs that 
+                  resolve to locators which in turn are dereferenced to a
+                  representation. 
+            </t>
+            <t>However, this specification permits several other cases of 
+                  URN resolution as well as URNs for resources that do not
+                  involve information retrieval systems.  This is true either 
+                  individually for particular URNs 
+                  or (as defined below) collectively for entire URN namespaces.
+            </t>
+            <t>Consider a namespace of URNs that resolve to locators 
+                  which in turn are dereferenced only to 
+                  metadata about resources because the underlying systems contain
+                  no representations of those resources;
+                  an example might be a URN namespace for International Standard Name 
+                  Identifiers (ISNI) as that identifier system is defined in
+                  <xref target='ISO.27729.2012'/>, wherein by default a URN would be 
+                  resolved only to a metadata record describing 
+                  the individual identified by the ISNI.
+            </t>
+            <t>Consider also URNs that resolve to representations only if the
+                  requesting entity is authorized to obtain the representation,
+                  whereas other entities can obtain only metadata about the
+                  resource; an example might be documents held within the legal
+                  depository collection of a national library.
+            </t>
+            <t>Finally, some URNs might not be intended to resolve
+                  to locators at all; examples might include URNs identifying 
+                  XML namespace names (e.g., the 'dgiwg' URN namespace 
+                  specified by <xref target='RFC6288'/>), URNs identifying application 
+                  features that can be supported within a communications protocol (e.g.,
+                  the 'alert' URN namespace specified by <xref target='RFC7462'/>),
+                  and URNs identifying enumerated types such as values in a registry
+                  (e.g., a URN namespace could be used to individually identify the 
+                  values in all IANA registries, as provisionally proposed in
+                  <xref target='I-D.saintandre-iana-urn'/>).
+            </t>
+            <t>These types of URNs and the resolution services available for them
+                  leave the concept of "resolution"
+		  somewhat more difficult for URNs than the straightforward case of
+		  resolution to a locator that is dereferenced to a representation.
+            </t>
+          </section>
+	  <section title="Character Sets and Encodings" anchor="tradeoffs-encoding">
+	   <t>A similar set of considations apply to character sets and encodings.
+		  URNs, especially URNs that will be used as user-facing
+		  identifiers, should be convenient to use in local languages and
+		  writing systems, easily specified with a wide range of keyboards
+		  and local conventions, and unambiguous.  There are tradeoffs
+		  among those goals and it is impossible at present to see how a simple
+		  and readily-understandable set of rules could be developed that
+		  would be optimal, or even reasonable, for all URNs.  The
+		  discussion in <xref target='syntax-nss'/> defines an overall 
+		  framework that should make generalized parsing and processing 
+		  possible, but also makes recommendations about rules for 
+		  individual URN namespaces.
+            </t>
+          </section>
+	</section>	  
+
+    </section>
 
     <section title='URN Syntax' anchor='syntax'>
 	   <t>As discussed above, the syntax for URNs in this
@@ -1310,6 +1339,23 @@ specifications of each URI scheme.
 	  <date year="2013" />
    </front>
    <seriesInfo name="ISO" value="3166-1:2013"/>
+</reference>
+
+<reference anchor="ISO.27729.2012">
+  <front>
+    <title>
+      Information and documentation - International standard name identifier (ISNI)
+    </title>
+    <author>
+      <organization abbrev="ISO/TC46">
+      Technical Committee ISO/TC 46, Information and
+      documentation, Subcommittee SC 9, Identification and
+      description.
+      </organization>
+    </author>
+    <date month='03' year="2012"/>
+  </front>
+  <seriesInfo name="ISO" value="Draft Standard 27729" />
 </reference>
 
 <reference anchor="URI-Registry"
