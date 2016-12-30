@@ -16,13 +16,13 @@
 <?rfc toc="yes"?>
 <?rfc tocdepth="3"?>
 <!-- Controls display of <cref> elements and put them inline -->
-<?rfc comments="yes" ?>
+<?rfc comments="no" ?>
 <?rfc inline="yes" ?>
 
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 -->
 <!-- Posting version of -18 is 18b, 2016-09-05 -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19f"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19g"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -69,7 +69,7 @@
     <keyword>URI</keyword>
 
     <abstract>
-      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) that is assigned under the "urn" scheme and a particular URN namespace, with the intent that the URN will be a persistent, location-independent resource identifier.  With regard to URN syntax, this document defines the canonical syntax for URNs (in a way that is consistent with URI syntax), specifies methods for determining URN-equivalence, and discusses URI conformance.  With regard to URN namespaces, this document specifies a method for defining a URN namespace and associating it with a namespace identifier, and describes procedures for registering namespace identifiers with the Internet Assigned Numbers Authority (IANA).  This document obsoletes both RFC 2141 and RFC 3406.</t>
+      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) that is assigned under the "urn" URI scheme and a particular URN namespace, with the intent that the URN will be a persistent, location-independent resource identifier.  With regard to URN syntax, this document defines the canonical syntax for URNs (in a way that is consistent with URI syntax), specifies methods for determining URN-equivalence, and discusses URI conformance.  With regard to URN namespaces, this document specifies a method for defining a URN namespace and associating it with a namespace identifier, and describes procedures for registering namespace identifiers with the Internet Assigned Numbers Authority (IANA).  This document obsoletes both RFC 2141 and RFC 3406.</t>
     </abstract>
 
   </front>
@@ -77,10 +77,9 @@
   <middle>
 
     <section title='Introduction' anchor='intro'>
-      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) <xref target='RFC3986'/> that is assigned under the "urn" scheme and a particular URN namespace, with the intent that the URN
+      <t>A Uniform Resource Name (URN) is a Uniform Resource Identifier (URI) <xref target='RFC3986'/> that is assigned under the "urn" URI scheme and a particular URN namespace, with the intent that the URN
 		 will be a persistent, location-independent resource identifier.
-		 <vspace blankLines="0"/><cref>JcK; 20161224: "either" made no sense in that sentence so removed it.</cref><vspace blankLines="0"/>
-		 A URN namespace is a collection of such URNs, each of which is (1) unique, (2) assigned in a consistent and managed way, and (3) assigned according to a common definition.  (Some URN namespaces create names that exist only as URNs, whereas others assign URNs based on names that were already created in other identifier systems,
+		 A URN namespace is a collection of such URNs, each of which is (1) unique, (2) assigned in a consistent and managed way, and (3) assigned according to a common definition.  (Some URN namespaces create names that exist only as URNs, whereas others assign URNs based on names that were already created in non-URN identifier systems,
 		 such as ISBNs <xref target='RFC3187'/>, ISSNs <xref target='RFC3044'/>, or
 		 RFCs <xref target="RFC2648"/>.)</t>
 	  <!-- JcK 20161224: Didn't seem wise to use exclusively TC 46 specs as examples -->
@@ -97,8 +96,7 @@
       <t>
         <list style='numbers'>
           <t>Defines the canonical syntax for URNs in general (in a way that is consistent with URI syntax), specifies methods for determining URN-equivalence, and discusses URI conformance.</t>
-          <t>Specifies a method for defining a URN namespace and associating it with a namespace ID (NID),
-			 <!-- JcK 20161226: First use of that term in the document -->
+          <t>Specifies a method for defining a URN namespace and associating it with a namespace identifier (NID),
 			 and describes procedures for registering URN NIDs with the Internet Assigned Numbers Authority (IANA).</t>
         </list>
       </t>
@@ -119,12 +117,14 @@
 		 for future standardization in RFC 2141.  All URN namespaces and URNs that were
 		 valid under the earlier specifications remain valid even though it may be
 		 useful to update some of them to take advantage of new features. </t>
-	  <t><cref> JcK 20161226: Proposed additional paragraph to try to immunize
+	  <t>
+          <cref> JcK 20161226: Proposed additional paragraph to try to immunize
 		 ourselves against never-ending terminology
-		 quibbles:</cref><vspace blankLines="0"/>
-	     The differences between URNs and locator-type URIs
-		 (specifically URLs) and the above, together with the greater
-		 focus on URLs in RFC 3986,
+		 quibbles:</cref>
+          The foregoing considerations, together with various differences between URNs and locator-type URIs
+		 (specifically URLs) as well as the greater
+		 focus on URLs in RFC 3986 
+                 as the ultimate successor to <xref target='RFC1738'/> and <xref target='RFC1808'/>,
 		 <vspace blankLines="0"/><cref>JcK 20161227: That assertion is justified by
 			the first few of paragraphs of Section 1 of RFC 3986, which first
 			describes its derivation from RFC 1630, which is clearly
@@ -190,26 +190,21 @@
 			 described in this one.  The term applies to the entire
 			 URI including its optional components.
 			 Note to the reader: the term "URN" has been used in other
-			 contexts to refer to a URN namepace, the namespace
+			 contexts to refer to a URN namespace, the namespace
 			 identifier (NID), the Assigned-name, and to URIs that do
 			 not use the "urn:" scheme.  All but the last of these is
 			 described elsewhere in this document, so the term
 			 should be used and interpreted with care.</t>
-          <t hangText='Locator:'>An identifier that provides a means of accessing a resource</t>
-          <t hangText="Locator URI">A locator that is conformant to
+          <t hangText='Locator:'>An identifier that provides a means of accessing a resource.</t>
+          <t hangText="Locator URI:">A locator that is conformant to
 			 URI syntax and other rules of RFC 3986.   That document,
 			 at Section 1.1.3, appears to identify all such locators
-			 as "URL"s, but this document attempts to be agnostic on
+			 as "URLs", but this document attempts to be agnostic on
 			 that issue.</t>
-		  <t hangText='Identifier system:'>A managed collection of names that exists outside of the URN system
-		     <vspace blankLines="0"/><cref> JcK 20161229: Not happy
-				about that definition:
-				it implies that a URN namespace cannot be an
-				identifier system, which I'm certain we will come to
-				regret.</cref> </t>
-          <t hangText='URN namespace:'>A managed collection of names that is associated with a URN namespace identifier (NID)</t>
-          <t hangText='NID:'>The identifier associated with a URN namespace</t>
-          <t hangText='NSS:'>The URN-namespace-specific part of a URN</t>
+		  <t hangText='Identifier system:'>A managed collection of names. This document refers to identifier systems outside the context of URNs as "non-URN identifier systems".</t>
+          <t hangText='URN namespace:'>An identifier system that is associated with a URN namespace identifier (NID).</t>
+          <t hangText='NID:'>The identifier associated with a URN namespace.</t>
+          <t hangText='NSS:'>The URN-namespace-specific part of a URN.</t>
           <t hangText='Assigned-name:'>The combination of the 'urn:'
 			 scheme, the NID, and the NSS.  An "Assigned-name" is
 			 consequently a substring of a URN (as defined above) if
@@ -223,7 +218,7 @@
 		 "locator" (Section 1.1.3) but also uses it in other contexts.
 		 If those uses are treated as definitions, they conflict
 		 with, e.g., the idea of the name of a URN namespace, i.e.,
-		 an NID or terms associated with non-URN namespaces.</t>   
+		 a NID or terms associated with non-URN identifier systems.</t>   
       <t>This document uses the terms "resource", "identifier", "identify", "dereference", "representation", and "metadata" roughly as defined in the URI specification <xref target='RFC3986'/>.</t>
       <t>This document uses the terms "resolution" and "resolver" in
 		 roughly the sense in which they were used in the original
@@ -441,19 +436,19 @@
       <section title='Namespace Specific String (NSS)' anchor='syntax-nss'>
         <t>The namespace specific string (NSS) is a string, unique
 		   within a URN namespace, that is assigned and managed in a consistent way and that conforms to the definition of the relevant URN namespace.  The combination of the NID (unique across the entire "urn" scheme) and the NSS (unique within the URN namespace) ensures that the resulting URN is globally unique.</t>
-        <t>The NSS as specified in this document allows characters not
+        <t>The NSS as specified in this document allows several characters not
 		   permitted by earlier specifications
 		   (see <xref target='changes-2141'/>). In particular, the "/"
 		   character, which is now allowed, effectively makes it possible
-		   to encapsulate hierarchical names from other identifier systems.  For instance, consider the hypothetical example of a hierarchical identifier system in which the names take the
+		   to encapsulate hierarchical names from non-URN identifier systems.  For instance, consider the hypothetical example of a hierarchical identifier system in which the names take the
 		   form of a sequence of numbers separated by the "/" character, such as "1/406/47452/2".  If the authority for such names were to use URNs, it would be natural to place the existing name in the NSS, resulting in URNs such as "urn:example:1/406/47452/2".</t>
-        <t>Those changes to the syntax for the NSS do not modify the encoding rules for URN namespaces that were defined in accordance with <xref target='RFC2141'/>.  If any such URN namespace that is used outside of the URN context
+        <t>Those changes to the syntax for the NSS do not modify the encoding rules for URN namespaces that were defined in accordance with <xref target='RFC2141'/>.  If any such URN namespace whose names are used outside of the URN context
 		   (i.e., in a non-URN identifier system)
 		   also allows the use of "/", "~", or "&amp;" in the native
 		   form within that identifier system, then the encoding rules
 		   for that URN namespace are not changed by this
 		   specification.</t>
-        <t>Depending on the rules governing an identifier system and its
+        <t>Depending on the rules governing a non-URN identifier system and its
                    associated URN namespace, names that
 		   are valid in that identifier system might 
                    contain characters that are
@@ -461,18 +456,18 @@
 		   (e.g., characters outside the ASCII range or, consistent
 		   with the restrictions in RFC 3986, the characters "/",
 		   "?", "#", "[", and "]").  While such a name might be
-		   valid within the identifier system, it is not a valid URN until it has been
+		   valid within the non-URN identifier system, it is not a valid URN until it has been
 		   translated into an NSS that conforms to the
                    rules of that particular URN namespace.  In the case of URNs
 		   that are formed from names that exist separately in 
-		   another identifier system, translation of a name
+		   a non-URN identifier system, translation of a name
 		   from its "native" format to URN format is accomplished by
 		   using the canonicalization and encoding methods defined
 		   for URNs in general or specific rules for that URN
 		   namespace.   Software that is not aware of
 		   namespace-specific canonicalization and encoding
 		   rules MUST NOT construct URNs from the name in the
-		   other identifier system.
+		   non-URN identifier system.
 		</t>
 		     <!-- JcK: See Keith Moore note 20151130 "fixing utf-8
 				 language from 2141...".  No action taken 
@@ -504,7 +499,7 @@
 		   Because this specification focuses almost exclusively on
 		   URN syntax, it does not define detailed semantics of these
 		   components for URNs in general.  However, each of these
-		   components has a distinct role that is independent of the URN and its URN namespace.  It is intended that clients will be able to handle these components uniformly for all URNs.
+		   components has a distinct role that is independent of any given URN and its URN namespace.  It is intended that clients will be able to handle these components uniformly for all URNs.
 		   These components MAY be used with URNs from existing URN namespaces, whether or not
 		   a URN namespace explicitly supports them.  However, consistent
 		   with the approach taken in RFC 3986, the behavior of a URN
@@ -549,7 +544,7 @@
              <t>urn:example:foo-bar-baz-qux?+CCResolve:cc=uk</t></list></t>
 		  <t> While the above should serve as a general explanation
 			 and illustration of the intent for r-components, there
-			 are many unresolved issues with them, including their
+			 are many open issues with them, including their
 			 relationship to resolution mechanisms associated with the
 			 particular URN namespace at registration time.
 			 Thus r-components SHOULD NOT be used for actual URNs until
@@ -576,7 +571,7 @@
 			 copying the q-component from the URN to the query component of the
 			 locator URI.
 			 An example of the copying operation appears below.</t>
-		  <t>This specification does not specify a required behaviour
+		  <t>This specification does not specify a required behavior
 			 in the case of URN resolution to a locator when the
 			 original URN has a q-component and the locator has a
 			 query string. Different circumstance may require
@@ -588,9 +583,7 @@
 			 12:31 -0700): "I still disagree strongly with the syntax
 			 of that paragraph, namely, using "?=" as an introducer
 			 anywhere in the q-component.</cref></t>  -->
-		  <t>If the URN does not resolve to a locator URI 
-                         <!--or if it resolves
-			 directly to an object or a non-locator resource designator-->,
+		  <t>If the URN does not resolve to a locator URI,
 			 the interpretation of the q-component is undefined by this specification. For URNs which may be resolved to a locator URI, the semantics of q-component
 			 are identical to those for queries to the resource located via that URI.</t>
           <t>For the sake of consistency with RFC 3986, the general syntax and the semantics of q-components are not defined by, or dependent on, the URN namespace of the URN.  In parallel with RFC 3896, specifics of syntax and semantics, e.g., which keywords or terms are meaningful, of course may depend on a particular URN namespace or even a particular resource.</t>
@@ -656,10 +649,6 @@
 		  If a URN containing an f-component resolves to a single locator URI
 		  associated with the named resource, the f-component from
 		  the URN can be applied (usually by the client) as
-		  <vspace blankLines="0"/><cref>JcK 20161224: I'm going to keep taking
-			 "verbatim" out unless  there is a good reason to include
-			 it.  I think it just adds confusion and is probably the
-			 wrong word.</cref><vspace blankLines="0"/>
 		  the fragment of that locator URI.  If the URN does not resolve to a
 		  locator URI, the interpretation of the f-component is undefined by this specification.  Thus, for URNs which may be resolved to a locator URI, the semantics of f-components are identical to those of fragments for that resource.</t>
 	        <!-- JcK: See 20151124 response to Juha for "single" -->
@@ -707,7 +696,7 @@
         </t>
         <t>Percent-encoded characters MUST NOT be decoded, i.e., percent-encoding normalization (as specified in Section 6.2.2.2 of <xref target='RFC3986'/>)
 		   MUST NOT be applied as part of the comparison process.</t>
-        <t>If a r-component, q-component, or f-component (or any
+        <t>If an r-component, q-component, or f-component (or any
 		   combination thereof) is included in a URN, it MUST be
 		   ignored for purposes of determining URN-equivalence.</t>
         <t>URN namespace definitions MAY include additional rules for
@@ -726,13 +715,13 @@
             <t>urn:EXAMPLE:a123,z456</t>
           </list>
         </t>
-        <t>Second, because the q-component and f-component are not
+        <t>Second, because the r-component, q-component, and f-component are not
 		   taken into account for purposes of testing URN-equivalence, the following three URNs are URN-equivalent to the first three examples above:</t>
         <t>
           <list style='symbols'>
-            <t>urn:example:a123,z456?=abc</t>
+            <t>urn:example:a123,z456?+abc</t>
+            <t>urn:example:a123,z456?=xyz</t>
             <t>urn:example:a123,z456#789</t>
-            <t>urn:example:a123,z456#abc</t>
           </list>
         </t>
         <t>Third, because the "/" character (and anything that follows
@@ -776,7 +765,7 @@
 
     <section title='URI Conformance' anchor='conformance'>
       <section title='Use in URI Protocol Slots' anchor='uri-slots'>
-        <t>Because a URN is, syntactically, a URI under the "urn" scheme, in theory a URN can be placed in any protocol slot that allows for a URI (e.g., the 'href' and 'src' attributes in HTML, the &lt;base/&gt; element in HTML, the 'xml:base' attribute in XML <xref target='XML-BASE'/>, and the 'xmlns' attribute in XML for XML namespace names <xref target='XML-NAMES'/>).</t>
+        <t>Because a URN is, syntactically, a URI under the "urn" scheme, in theory a URN can be placed in any protocol slot that allows for a URI (to name just a few, the 'href' and 'src' attributes in HTML, the &lt;base/&gt; element in HTML, the 'xml:base' attribute in XML <xref target='XML-BASE'/>, and the 'xmlns' attribute in XML for XML namespace names <xref target='XML-NAMES'/>).</t>
         <t>However, this does not imply that, semantically, it always makes sense in practice to place a URN in a given URI protocol slot; in particular, because a URN might not specify the location of a resource or even point indirectly to one, it might not be appropriate to place a URN in a URI protocol slot that points to a resource (e.g., the aforementioned 'href' and 'src' attributes).</t>
         <t>Ultimately, guidelines regarding when it is appropriate to use URIs under the "urn" scheme (or any other scheme) are the responsibility of specifications for individual URI protocol slots (e.g., the specification for the 'xml:base' attribute in XML might recommend that it is inappropriate to use URNs in that protocol slot).  This specification cannot possibly anticipate all of the relevant cases, and it is not the place of this specification to require or restrict usage for individual protocol slots.</t>
       </section>
@@ -834,7 +823,7 @@
 			  --> 
       </section>
       <section title='Transport and Display' anchor='uri-display'>
-        <t>When URNs are transported and exchanged, they MUST be represented in the format defined herein.  Further, all URN-aware applications MUST offer the option of displaying URNs in this canonical form to allow for direct transcription (for example by cut-and-paste techniques).  Such applications might support display of URNs in a more human-friendly form and might use a character set that includes characters that are not permitted in URN syntax as defined in this specification (e.g., when displaying URNs to humans, such applications might replace percent-encoded strings with characters from an extended character repertoire such as Unicode <xref target='UNICODE'/>).</t>
+        <t>When URNs are transported and exchanged, they MUST be represented in the format defined herein.  Further, all URN-aware applications MUST offer the option of displaying URNs in this canonical form to allow for direct transcription (for example by copy-and-paste techniques).  Such applications might support display of URNs in a more human-friendly form and might use a character set that includes characters that are not permitted in URN syntax as defined in this specification (e.g., when displaying URNs to humans, such applications might replace percent-encoded strings with characters from an extended character repertoire such as Unicode <xref target='UNICODE'/>).</t>
         <t>To minimize user confusion, any application displaying
 		   URIs SHOULD display the complete URI (including, for URNs, the "urn" scheme and any components) to ensure that there is no confusion between URN NIDs and URI scheme identifiers.  For example, a URI beginning with "urn:xmpp:" <xref target='RFC4854'/> is very different from a URI beginning with "xmpp:" <xref target='RFC5122'/>.  Similarly, a potential DOI URI scheme <xref target="DOI-URI"/> is different from, and possibly completely unrelated to, a possible DOI URN namespace.</t>
       </section>
@@ -853,15 +842,15 @@
         </list>
       </t>
       <t>A URN namespace is identified by a particular NID in order to ensure the global uniqueness of URNs and, optionally, to provide a cue regarding the structure of URNs assigned within a URN namespace.</t>
-      <t>With regard to global uniqueness, using different NIDs for different collections of names ensures that no two URNs will be the same for different resources, since each collection is required to uniquely assign each name.  However, a single resource MAY have more than one URN assigned to it, either in the same URN namespace (if the URN namespace permits it) or in different URN namespaces, and either for similar purposes or different purposes.
+      <t>With regard to global uniqueness, using different NIDs for different collections of names ensures that no two URNs will be the same for different resources, because each collection is required to uniquely assign each name.  However, a single resource MAY have more than one URN assigned to it, either in the same URN namespace (if the URN namespace permits it) or in different URN namespaces, and either for similar purposes or different purposes.
 		 (For example, if a publisher assigns an ISBN <xref target='RFC3187'/> to an
 		 electronic publication and that publication is later
 		 incorporated into a digital long-term archive operated by a
 		 national library, the library might assign the publication an
 		 NBN <xref target='RFC3188'/>, resulting in two URNs referring to the same book.)
 		 <!-- Change above per Lars, 20160224 -->
-		 Subject to other constraints, such as those imposed by the URI syntax <xref target='RFC3986'/>, the rules of the URN scheme are intended to allow preserving the normal and natural form of names specified in other identifier systems when they are treated as URNs.</t>
-      <t>With regard to the structure of names assigned within a URN namespace, the development of a naming structure (and thereby a collection of names) depends on the requirements of the community defining the names, how the names will be assigned and used, etc.  These issues are beyond the scope of URN syntax and the general rules for URN namespaces, because they are specific to the community defining an identifier system or a particular URN namespace (e.g., the bibliographic and publishing communities in the case of the 'ISBN' URN namespace <xref target='RFC3187'/> and the 'ISSN' URN namespace <xref target='RFC3044'/>, or the developers of extensions to the Extensible Messaging and Presence Protocol <xref target='RFC6120'/> in the case of the 'XMPP' URN namespace <xref target='RFC4854'/>).</t>
+		 Subject to other constraints, such as those imposed by the URI syntax <xref target='RFC3986'/>, the rules of the URN scheme are intended to allow preserving the normal and natural form of names specified in non-URN identifier systems when they are treated as URNs.</t>
+      <t>With regard to the structure of names assigned within a URN namespace, the development of a naming structure (and thereby a collection of names) depends on the requirements of the community defining the names, how the names will be assigned and used, etc.  These issues are beyond the scope of URN syntax and the general rules for URN namespaces, because they are specific to the community defining a non-URN identifier system or a particular URN namespace (e.g., the bibliographic and publishing communities in the case of the 'ISBN' URN namespace <xref target='RFC3187'/> and the 'ISSN' URN namespace <xref target='RFC3044'/>, or the developers of extensions to the Extensible Messaging and Presence Protocol <xref target='RFC6120'/> in the case of the 'XMPP' URN namespace <xref target='RFC4854'/>).</t>
       <t>URN namespaces inherit certain rights and responsibilities by the nature of URNs, in particular:</t>
       <t>
         <list style='numbers'>
@@ -932,7 +921,7 @@
 			might be construed as identifiers for, or registered under the
 			authority of, countries (including ISO 3166-1 alpha-3
 			codes) and to strings that might imply association with
-			existing URI schemes, identifier systems, or trademarks.  
+			existing URI schemes, non-URN identifier systems, or trademarks.  
                         However, in line with traditional
 			policies, disputes about "ownership" of particular
 			strings are disagreements among the parties involved;
@@ -1101,7 +1090,7 @@
 			   that might otherwise result from comparison.  If it is
 			   appropriate and helpful, reference can be made to
 			   particular equivalence rules defined in the URI
-			   specification <xref target='RFC3986'/> and/or to
+			   specification <xref target='RFC3986'/> or to
 			   <xref target='equivalence'/> of this document.
 			   <!-- See Tracker, "2141bis: Equivalence rules #8" -->
 			   Examples of URN-equivalence rules include equivalence between
@@ -1120,7 +1109,7 @@
 			   in general; such statements are limited to one particular URN namespace only.)</t>
             <t>Any special considerations necessary for conforming with
 			   the URN syntax.  This is particularly applicable in the
-			   case of existing identifier systems that are used in the context of URNs.  For example, if an identifier system is used in contexts other than URNs, it might make use of characters that are reserved in the URN syntax.  This section ought to note any such characters, and outline necessary mappings to conform to URN syntax.  Normally, this will be handled by percent-encoding the character as specified in Section 2.1 of
+			   case of existing, non-URN identifier systems that are used in the context of URNs.  For example, if a non-URN identifier system is used in contexts other than URNs, it might make use of characters that are reserved in the URN syntax.  This section ought to note any such characters, and outline necessary mappings to conform to URN syntax.  Normally, this will be handled by percent-encoding the character as specified in Section 2.1 of
 			   the URI specification <xref target='RFC3986'/> and as discussed in
 			   <xref target="tradeoffs-encoding"/> of this specification.</t>
             <t>Any special considerations for the meaning of q-components (e.g., keywords) or f-components (e.g., predefined terms) in the context of this URN namespace.</t>
@@ -1155,9 +1144,9 @@
             <t>The consequences of producing false negatives and
 			   false positives during comparison for URN-equivalence (see
 			   <xref target="tradeoffs-encoding"/> of this specification and
-			   "Issues in Identifier Comparison for Security Purposes" <xref target='RFC6943'/>)</t>
-            <t>Leakage of private information when names are communicated on the public Internet</t>
-            <t>The potential for directory harvesting</t>
+			   "Issues in Identifier Comparison for Security Purposes" <xref target='RFC6943'/>).</t>
+            <t>Leakage of private information when names are communicated on the public Internet.</t>
+            <t>The potential for directory harvesting.</t>
             <t>Various issues discussed in the guidelines for security considerations in RFCs <xref target='RFC3552'/> and the privacy considerations for Internet protocols <xref target='RFC6973'/>.</t> 
           </list>
         </t>
@@ -1167,11 +1156,11 @@
         <t>
           The "Interoperability" section MUST specify any known potential issues
           related to interoperability.  Examples include possible confusion
-          with other URN namespaces or naming systems because of syntax (e.g.,
+          with other URN namespaces, non-URN identifier systems, or URI schemes because of syntax (e.g.,
           percent-encoding of certain characters) or scope (e.g., overlapping
           areas of interest).  If at all possible, concerns that
 		  arise during the registration of a URN namespace (e.g., due to
-		  the syntax or scope of an identifier system) should
+		  the syntax or scope of a non-URN identifier system) should
 		  be resolved as part of or in parallel to the registration process.
         </t>
       </section>
@@ -1523,6 +1512,30 @@ specifications of each URI scheme.
 <date year='1994' month='December' /></front>
 <seriesInfo name='RFC' value='1737' />
 <format type='TXT' octets='16337' target='http://www.rfc-editor.org/rfc/rfc1737.txt' />
+</reference>
+
+<reference  anchor='RFC1738' target='http://www.rfc-editor.org/info/rfc1738'>
+<front>
+<title>Uniform Resource Locators (URL)</title>
+<author initials='T.' surname='Berners-Lee' fullname='T. Berners-Lee'><organization /></author>
+<author initials='L.' surname='Masinter' fullname='L. Masinter'><organization /></author>
+<author initials='M.' surname='McCahill' fullname='M. McCahill'><organization /></author>
+<date year='1994' month='December' />
+<abstract><t>This document specifies a Uniform Resource Locator (URL), the syntax and semantics of formalized information for location and access of resources via the Internet. [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name='RFC' value='1738'/>
+<seriesInfo name='DOI' value='10.17487/RFC1738'/>
+</reference>
+
+<reference  anchor='RFC1808' target='http://www.rfc-editor.org/info/rfc1808'>
+<front>
+<title>Relative Uniform Resource Locators</title>
+<author initials='R.' surname='Fielding' fullname='R. Fielding'><organization /></author>
+<date year='1995' month='June' />
+<abstract><t>In situations where the base URL is well-defined and known to the parser (human or machine), it is useful to be able to embed URL references which inherit that context rather than re-specifying it in every instance.  This document defines the syntax and semantics for such Relative Uniform Resource Locators.  [STANDARDS-TRACK]</t></abstract>
+</front>
+<seriesInfo name='RFC' value='1808'/>
+<seriesInfo name='DOI' value='10.17487/RFC1808'/>
 </reference>
 
 <reference anchor='RFC2141'>
@@ -1994,7 +2007,7 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
           <t hangText='Namespace ID:'>Requested of IANA (formal) or assigned by IANA (informal).</t>
           <t hangText='Version:'>The version of the registration, starting with 1 and incrementing by 1 with each new version.</t>
           <t hangText='Date:'>The date when the registration is requested of IANA, using the format YYYY-MM-DD.</t>
-          <t hangText='Registrant:'>The person or organization that has registered the NID, including the name and address of the registering organization, as well as the name and contact information (email, phone number, or postal address) of the designated contact person. If the registrant is a recognized standards development organization, scientific society, or similar body requesting the fact track registration procedure (see <xref target='definition-registration-fasttrack'/>), that information should be clearly indicated in this section of the template.</t>
+          <t hangText='Registrant:'>The person or organization that has registered the NID, including the name and address of the registering organization, as well as the name and contact information (email, phone number, or postal address) of the designated contact person. If the registrant is a recognized standards development organization, scientific society, or similar body requesting the fast track registration procedure (see <xref target='definition-registration-fasttrack'/>), that information should be clearly indicated in this section of the template.</t>
           <t hangText='Purpose:'>Described under <xref target='definition-purpose'/> of this document.</t>
           <t hangText='Syntax:'>Described under <xref target='definition-syntax'/> of this document.  Unless the registration explicitly describes the semantics of r-components, q-components, and f-components in the context of this URN namespace,
 			 those semantics are undefined.</t>
@@ -2052,8 +2065,8 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 		 Identifiers (URIs) <xref target='RFC3986'/> and the
 		 processes for registering information with the IANA
 		 <xref target='RFC5226'/>, as well as more modern guidance
-		 with regard to security <xref target='RFC3552'/>
-		 and privacy <xref target="RFC6973"/> issues
+		 with regard to security <xref target='RFC3552'/>,
+		 privacy <xref target="RFC6973"/>,
 		 and identifier comparison <xref target='RFC6943'/>.</t>
 	  </section>
     </section>
@@ -2071,8 +2084,9 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 			 identifier with the string "X-". Because experimental
 			 URN namespaces were never registered, removing the
 			 experimental category has no impact on the existing
-			 registries.  Because they are not registered, strings
-			 that refer to experimental URN namespaces are not valid
+			 registries.  Because experimental URN namespaces are
+                         not managed, strings conforming to URN syntax within
+			 experimental URN namespaces are not valid
 			 URNs.  Truly experimental usages MAY, of course, employ
 			 the 'example' namespace <xref target='RFC6963'/>.</t>
           <t>Adds some information to, but generally simplifies, the
@@ -2304,7 +2318,7 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 				Section 6 and as derived from RFC 3406.</t>
 			 <t> Replaced material on relative references to reflect
 				the on-list discussions in August and September and
-				generally to say less and leave more to RFC 3986.</t>
+				generally to say less here and leave more to RFC 3986.</t>
                          <t>Expanded the discussion of resolution, dereferencing, representations, metadata, and intended uses for URNs.</t>
 			 <t>Removed the term "abstract designator".</t>
              <t>Replaced the term "URL" in most instances with the term "locator" or the term "locator URI".</t>
