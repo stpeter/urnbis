@@ -22,7 +22,7 @@
 <!-- Posting version of -16 is 16k, 2016-04-16 -->
 <!-- Posting version of -17 is 17d, 2016-06-27 -->
 <!-- Posting version of -18 is 18b, 2016-09-05 -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19e"
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-19f"
 		  ipr="pre5378Trust200902" obsoletes="2141, 3406"> 
 
   <front>
@@ -59,7 +59,7 @@
       </address>
     </author>
 
-    <date year="2016" month="December" day="27" />
+    <date year="2016" month="December" day="29" />
 
     <area>Applications</area>
     <workgroup>URNBIS</workgroup>
@@ -157,7 +157,9 @@
 
     <section title="Terminology" anchor="terms">
       <t>The following terms are distinguished from each other as described below:
-	    <vspace blankLines="0"/><cref>JcK 20161223: The entries below are problematic.
+	    <vspace blankLines="0"/><cref>JcK 20161223 (retained for -19f
+		   only -- remove if we think we've fixed it; rewrite
+		   otherwise): The entries below are problematic.
 		   If a "name" is a member
 		   of a namespace, then an NID can't be a name and the "name" is bound to the
 		   NSS.  NID-as-name, despite what appears below, is common usage.
@@ -180,16 +182,48 @@
 	  </t>
       <t>
         <list style='hanging'>
-          <t hangText='Name:'>A member of a non-URN identifier system or of a URN namespace</t>
+   <!--          <t hangText='Name:'>A member of a non-URN identifier
+		   system or of a URN namespace</t>  -->
+          <t hangText='URN:'>A URI (as defined in RFC 3986) using the
+			 "urn:" scheme and with the properties of a "name" as
+			 described in that document as well as the properties
+			 described in this one.  The term applies to the entire
+			 URI including its optional components.
+			 Note to the reader: the term "URN" has been used in other
+			 contexts to refer to a URN namepace, the namespace
+			 identifier (NID), the Assigned-name, and to URIs that do
+			 not use the "urn:" scheme.  All but the last of these is
+			 described elsewhere in this document, so the term
+			 should be used and interpreted with care.</t>
           <t hangText='Locator:'>An identifier that provides a means of accessing a resource</t>
-          <t hangText='Identifier system:'>A managed collection of names that exists outside of the URN system</t>
+          <t hangText="Locator URI">A locator that is conformant to
+			 URI syntax and other rules of RFC 3986.   That document,
+			 at Section 1.1.3, appears to identify all such locators
+			 as "URL"s, but this document attempts to be agnostic on
+			 that issue.</t>
+		  <t hangText='Identifier system:'>A managed collection of names that exists outside of the URN system
+		     <vspace blankLines="0"/><cref> JcK 20161229: Not happy
+				about that definition:
+				it implies that a URN namespace cannot be an
+				identifier system, which I'm certain we will come to
+				regret.</cref> </t>
           <t hangText='URN namespace:'>A managed collection of names that is associated with a URN namespace identifier (NID)</t>
-          <t hangText='URN:'>A name that is a member of a URN namespace</t>
           <t hangText='NID:'>The identifier associated with a URN namespace</t>
           <t hangText='NSS:'>The URN-namespace-specific part of a URN</t>
-          <t hangText='Assigned-name:'>The combination of the 'urn:' scheme, the NID, and the NSS</t>
+          <t hangText='Assigned-name:'>The combination of the 'urn:'
+			 scheme, the NID, and the NSS.  An "Assigned-name" is
+			 consequently a substring of a URN (as defined above) if
+			 that URN contains any additional components
+			 (see <xref target='syntax'/>).</t>
         </list>
       </t>
+	  <t> The term "name" is deliberately not defined here and should
+		 be (and in practice, is) used only very informally.  RFC 3986
+		 uses the term as a category of URI distinguished from
+		 "locator" (Section 1.1.3) but also uses it in other contexts.
+		 If those uses are treated as definitions, they conflict
+		 with, e.g., the idea of the name of a URN namespace, i.e.,
+		 an NID or terms associated with non-URN namespaces.</t>   
       <t>This document uses the terms "resource", "identifier", "identify", "dereference", "representation", and "metadata" roughly as defined in the URI specification <xref target='RFC3986'/>.</t>
       <t>This document uses the terms "resolution" and "resolver" in
 		 roughly the sense in which they were used in the original
@@ -203,7 +237,8 @@
 		 without requiring further intermediaries.
 		 At the time of this writing, resolution services are
 		 described in <xref target='RFC2483'/>.</t>
-      <t>On the distinction between names and locators, see Section 1.1.3 of <xref target='RFC3986'/>; on the distinction between representations and metadata, see Section 1.2.2 of <xref target='RFC3986'/>.</t>
+      <t>On
+		 the distinction between representations and metadata, see Section 1.2.2 of <xref target='RFC3986'/>.</t>
       <t>Several other terms related to "normalization" operations that are not part of the Unicode Standard <xref target='UNICODE'/> are also used here as they are in RFC 3986.</t>
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <xref target='RFC2119'/>.</t>
     </section>
@@ -603,7 +638,15 @@
 
         <section title='f-component' anchor='syntax-f'>
           <t>The f-component is intended to be interpreted by the client as a specification for a
-			 location within, or region of, the named resource.</t>
+			 location within, or region of, the named resource.
+             It distinguishes the constituent
+             parts of a resource named by a URN.  For a URN that resolves to one
+             or more locators which can be dereferenced to a representation, or
+             where the URN resolver directly returns a representation of the
+             resource, the semantics of an f-component are defined by the media
+             type of the representation. 
+          </t>
+		  
           <t>The URN f-component has the same syntax as the URI fragment component.
 			 <!-- When a URN containing an f-component resolves to a URL, the f-component
 			 from the URN is copied verbatim into the fragment of that URL.
@@ -633,13 +676,6 @@
              Clients SHOULD NOT pass f-components to resolution
  	         services unless those services also perform object
              retrieval and interpretation functions.</t> 
-          <t>The f-component is primarily intended to distinguish the constituent
-             parts of a resource named by a URN.  For a URN that resolves to one
-             or more locators which can be dereferenced to a representation, or
-             where the URN resolver directly returns a representation of the
-             resource, the semantics of an f-component are defined by the media
-             type of the representation. 
-          </t>
           <t>Consider the hypothetical example of obtaining resources that are part of a larger entity (say, the chapters of a book).  Each part could be specified in the f-component, resulting in URNs such as:</t>
           <t>urn:example:foo-bar-baz-qux#somepart</t>
         </section>
@@ -2271,7 +2307,12 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 				generally to say less and leave more to RFC 3986.</t>
                          <t>Expanded the discussion of resolution, dereferencing, representations, metadata, and intended uses for URNs.</t>
 			 <t>Removed the term "abstract designator".</t>
-                         <t>Replaced the term "URL" in most instances with the term "locator" or the term "locator URI".</t>
+             <t>Replaced the term "URL" in most instances with the term "locator" or the term "locator URI".</t>
+			 <t>Rearranged and partially rewrote the "Terminology"
+				section to reflect the above change to "URL" usage,
+				reflect the actual use of the term "URN" in the
+				document, and be clear about the meaning (or lack
+				thereof) of "name".</t>
 		  </list></t>
 	   </section>
 	   
