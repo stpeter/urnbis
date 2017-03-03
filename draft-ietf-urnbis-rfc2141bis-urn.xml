@@ -5,6 +5,7 @@
 
 <!ENTITY rfc2648 PUBLIC '' "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2648.xml">
 <!ENTITY rfc5890 PUBLIC '' "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5890.xml">
+<!ENTITY rfc7254 PUBLIC '' "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7254.xml">
 <!ENTITY rfc7613 PUBLIC '' "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7613.xml">
 
      ]>
@@ -26,7 +27,11 @@
          19j is the same as 19i with the working version crefs and comments removed --> 
 <!-- Posting version of -20 is 20d, 2017-02-02
          (differs from 20c only by date and this comment. -->
-<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-20"
+<!-- Posting version of -21 is 21d, 2017-02-27
+         (Post Last Call, editorial changes only) -->
+<!-- Posting version of -22 is 22b, 2017-03-02
+         (addresses IESG input) -->
+<rfc category="std" docName="draft-ietf-urnbis-rfc2141bis-urn-22"
           ipr="trust200902" obsoletes="2141, 3406">
 
   <front>
@@ -63,7 +68,7 @@
       </address>
     </author>
 
-    <date year="2017" month="February" day="2" />
+    <date year="2017" month="March" day="2" />
 
     <area>Applications</area>
     <workgroup>URNBIS</workgroup>
@@ -270,10 +275,12 @@
                   metadata about resources because the underlying systems contain
                   no representations of those resources;
                   an example might be a URN namespace for International Standard Name
-                  Identifiers (ISNI) as that identifier system is defined in
-                  <xref target='ISO.27729.2012'/>, wherein by default a URN would be
+                  Identifiers (ISNI) as that identifier system is
+				  defined in the relevant standard <xref target='ISO.27729.2012'/>,
+				  wherein by default a URN would be
                   resolved only to a metadata record describing
-                  the individual identified by the ISNI.
+                  the public identity identified by the ISNI.
+				  <!-- changed from 'individual" per Juha note 20170207 -->
             </t>
             <t>Consider also URNs that resolve to representations only if the
                   requesting entity is authorized to obtain the representation,
@@ -425,7 +432,12 @@
            the Unicode Identifier and Pattern Syntax specification
            <xref target="UAX31"/>.</t>
 
-        <t>In order to make URNs as stable and persistent as possible when protocols evolve and the environment around them changes, URN namespaces SHOULD NOT allow characters outside the basic Latin repertoire <xref target='RFC20'/> unless the nature of the particular URN namespace makes such characters necessary.</t>
+        <t>In order to make URNs as stable and persistent as possible when protocols evolve and the environment around them changes, URN namespaces SHOULD NOT allow
+		   characters outside the ASCII range <xref target="RFC20"/> unless the
+		   nature of the particular URN namespace makes such characters necessary.
+		   <!-- JcK 20170221: Per Peter and Tom Petch, IETF list.
+		   Rewritten and changed to mention ASCII instead of Basic
+                   Latin, and to reference RFC 20. --> </t>
       </section>
 
       <section title='Optional Components' anchor='syntax-components'>
@@ -484,10 +496,10 @@
              are many open issues with them, including their
              relationship to resolution mechanisms associated with the
              particular URN namespace at registration time.
-             Thus r-components SHOULD NOT be used for actual URNs until
-             additional development and standardization work is
-             complete, including specification of any necessary
-             registration mechanisms.</t>
+			 Thus r-components SHOULD NOT be used for URNs before their
+			 semantics have been standardized.</t>
+		     <!-- JcK 20170302 previous sentence changed per Alissa
+		        IESG comments -->
         </section>
 
         <section title='q-component' anchor='syntax-q'>
@@ -748,7 +760,7 @@
               -->
       </section>
       <section title='Transport and Display' anchor='uri-display'>
-        <t>When URNs are transported and exchanged, they MUST be represented in the format defined herein.  Further, all URN-aware applications MUST offer the option of displaying URNs in this canonical form to allow for direct transcription (for example by copy-and-paste techniques).  Such applications might support display of URNs in a more human-friendly form and might use a character set that includes characters that are not permitted in URN syntax as defined in this specification (e.g., when displaying URNs to humans, such applications might replace percent-encoded strings with characters from an extended character repertoire such as Unicode <xref target='UNICODE'/>).</t>
+        <t>When URNs are transported and exchanged, they MUST be represented in the format defined herein.  Further, URN-aware applications are strongly encouraged to offer the option of displaying URNs in this canonical form to allow for direct transcription (for example by copy-and-paste techniques).  Such applications might support display of URNs in a more human-friendly form and might use a character set that includes characters that are not permitted in URN syntax as defined in this specification (e.g., when displaying URNs to humans, such applications might replace percent-encoded strings with characters from an extended character repertoire such as Unicode <xref target='UNICODE'/>).</t>
         <t>To minimize user confusion, any application displaying
            URIs SHOULD display the complete URI (including, for URNs, the "urn" scheme and any components) to ensure that there is no confusion between URN NIDs and URI scheme identifiers.  For example, a URI beginning with "urn:xmpp:" <xref target='RFC4854'/> is very different from a URI beginning with "xmpp:" <xref target='RFC5122'/>.  Similarly, a potential DOI URI scheme <xref target="DOI-URI"/> is different from, and possibly completely unrelated to, a possible DOI URN namespace.</t>
       </section>
@@ -1077,7 +1089,13 @@
                "Issues in Identifier Comparison for Security Purposes" <xref target='RFC6943'/>).</t>
             <t>Leakage of private information when names are communicated on the public Internet.</t>
             <t>The potential for directory harvesting.</t>
-            <t>Various issues discussed in the guidelines for security considerations in RFCs <xref target='RFC3552'/> and the privacy considerations for Internet protocols <xref target='RFC6973'/>.</t>
+            <t>Various issues discussed in the guidelines for security considerations in RFCs <xref target='RFC3552'/> and the
+			   privacy considerations for Internet protocols <xref target='RFC6973'/>.
+			   In particular note the privacy considerations text for the Global System for Mobile
+			   Communications Association (GSMA) / International
+			   Mobile station Equipment Identity (IMEI) namespace <xref target="RFC7254"/>,
+			   which may provide a useful model for such cases.</t>
+			   <!-- JcK 20170302: Stephen Farrell text -->
           </list>
         </t>
       </section>
@@ -1155,6 +1173,14 @@
         <t>This document outlines the processes for registering URN namespaces, and has implications for the IANA in terms of registries to be maintained (see especially <xref target='definition'/>).  In all cases, the IANA ought to assign the appropriate NID (formal or informal) once the procedures outlined
            in <xref target='definition'/> above have been completed.</t>
       </section>
+	  <section title="Discussion list for new and updated NID registrations">
+		 <t>As discussed elsewhere in this document, the discussion
+			list, urn-nid@apps.ietf.org, specified in RFC 3406 is
+			discontinued and [[should be]] replaced by an autoresponse
+			message or alias pointing people to the new list and
+			procedures. That new list is, as specified above,
+			urn@ietf.org.</t> 
+	  </section>
     </section>
 
     <section title='Security and Privacy Considerations' anchor='security'>
@@ -1852,6 +1878,7 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 <seriesInfo name='DOI' value='10.17487/RFC7462'/>
 </reference>
 
+&rfc7254;
 &rfc7613;
 
 <reference anchor="UNICODE" target="http://www.unicode.org/versions/latest/">
@@ -2000,9 +2027,10 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
              URN namespaces were never registered, removing the
              experimental category has no impact on the existing
              registries.  Because experimental URN namespaces are
-                         not managed, strings conforming to URN syntax within
+             not managed, strings conforming to URN syntax within
              experimental URN namespaces are not valid
-             URNs.  Truly experimental usages MAY, of course, employ
+             URNs.  Truly experimental usages may, of course, employ
+			 <!-- JcK 20170302 MAY to may per IESG comments -->
              the 'example' namespace <xref target='RFC6963'/>.</t>
           <t>Adds some information to, but generally simplifies, the
              URN namespace registration template.</t>
@@ -2261,7 +2289,28 @@ Resource Name (URN) Namespace for Extensions to the Extensible Messaging and Pre
 				than "3986".</t>
           </list></t>
        </section>
-
+       <section title="Changes from -20 (2017-02-02) to -21">
+          <t><list style='symbols'>
+			 <t> Added a new subsection to IANA Considerations to note
+				the change in mailing list for NID registration
+				requests.</t>
+			 <t> Eliminated "Basic Latin Repertoire" statement in
+				favor of "outside the ASCII range" as used elsewhere
+				in the document. </t>
+			 <t> Minor editorial improvements and corrections.</t>
+		  </list></t>
+	   </section>
+       <section title="Changes from -21 (2017-02-27) to -22">
+          <t><list style='symbols'>
+			 <t> IESG-requested changes to conditions for use of
+				r-components and apparent normative language in the
+				template.</t>
+			 <t> IESG-requested changes to make the relevance of
+				privacy considerations in namespace definitions more
+				clear and to add a reference to RFC 7254 as a useful
+				example. </t>
+		  </list></t>
+	   </section>			 
     </section>
 
   </back>
