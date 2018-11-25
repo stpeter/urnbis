@@ -1,0 +1,123 @@
+Namespace registration for Canonical Text Services (CTS) URNs
+
+Namespace Identifier: cts
+
+Version: 1
+
+Date: 2018-11-25 
+
+Registrant:
+
+   The Homer Multitext Project
+
+   Contact persons: 
+     Casey Dué (casey&chs.harvard.edu)
+     Mary Ebbott (ebbott&chs.harvard.edu)
+     Christopher Blackwell (christopher.blackwell&furman.edu)
+     Neel Smith (nsmith&holycross.edu)
+   
+Purpose:
+
+   CTS URNs provide permanent, canonical, scholarly references to 
+   texts or passages of text associated with the unique cultural 
+   phenomena that humanists study. CTS URNs are used by Canonical 
+   Text Services (CTS), which provide a network service that can 
+   equate XML documents with the work referred to by a CTS URN, 
+   and can retrieve a well-formed XML fragment for a passage referred 
+   to in a CTS URN. In CTS, each text is defined in terms of two 
+   hierarchies: the first hierarchy, which associates a work with 
+   a certain kind of group, is similar to the conceptual model of 
+   the Functional Requirements for Bibliographic Records (FRBR); 
+   the second hierarchy, which refers to a passage within a work, 
+   provides a method for citing a particular location or "citation 
+   unit". Whereas the conceptual model of FRBR aims to represent 
+   bibliographic entries as they are cataloged by librarians, CTS 
+   URNs aim to model works as they are cited by scholars.
+
+Syntax:
+
+   The general structure of a CTS URN is as follows:
+
+   urn:cts:SUBNAMESPACE:WORK:PASSAGE:SUBREFERENCE
+
+   Where:
+
+   o A required CTS subnamespace is a prefix that resolves to a unique 
+     URI in the GetCapabilities reply of a recognized CTS service.
+     Each unique CTS subnamespace is assigned to an authoritative
+     registry for that CTS subnamespace by a top-level registry
+     responsible for overall management of the CTS URN namespace.
+
+   o A required work identifier is a set of dot-separated components
+     representing at least one of a textgroup, work, and edition
+     or a translation and examplar. Values for the work identifier
+     must be registered with the registry identified by the CTS 
+     namespace component.
+
+   o An optional passage reference refers either to an individual 
+     passage or to a range of passages within a work. A passage
+     reference to an individual passage is formatted as a set of 
+     dot-separated components representing one or more levels of 
+     the citation hierarchy defined in a CTS TextInventory for that 
+     work. A reference to a range is formatted as two passage 
+     references separated by a hyphen.
+
+   o An optional subreference identifies a span within a single 
+     citation unit using indexed substrings. A subreference is set 
+     off form the passage reference it qualifies by the at sign 
+     character '@'. A subreference may contain two parts: a literal 
+     string, and an index value. If an index value is included, it 
+     is enclosed in square brackets '[' ']' and follows any substring. 
+     The index value must evaluate to a positive integer.
+
+   A detailed definition of CTS syntax can be found at:
+
+   http://www.homermultitext.org/hmt-doc/cite/cts-urn-overview.html
+
+Assignment:
+
+   CTS URNs are assigned programmatically in accordance with the
+   policies of an authoritative registry for a given CTS subnamespace.
+   In turn, each CTS subnamespace is assigned by a top-level registry
+   for the CTS namespace itself; this function is served by the 
+   [Scaife Digital Library].
+
+Security and Privacy:
+
+   CTS URNs are used to identify cultural texts (and units thereof) 
+   for the purpose of scholarly citation. Because such texts are public 
+   resources, they do not contain private information or identifiers
+   that can be associated with persons. Therefore it is unlikely that 
+   the use of CTS URNs will result in the leakage of private or 
+   personal information.
+
+   Tampering with, or mis-assignment of, CTS URNs could result in
+   incorrect citations within scholarly works that refer to the 
+   underlying texts or passages of text. Although such phenomena 
+   could cause confusion, they are unlikely to result in security
+   vulnerabilities.
+
+Interoperability:
+
+   There are no known interoperability issues with CTS URNs as
+   deployed.
+
+Resolution:
+
+   CTS URNs are defined for the purpose of citation, not resolution.
+   Therefore, resolution is not envisioned and is out of scope for
+   this namespace registration.
+
+Documentation:
+
+   More detailed information about CTS URNs and the CTS architecture
+   can be found at:
+
+   http://www.homermultitext.org/hmt-doc/cite/texts/ctsoverview.html
+
+   http://www.homermultitext.org/hmt-doc/cite/cts-urn-overview.html
+
+Additional Information: N/A 
+
+Revision Information: N/A
+ 
